@@ -44,10 +44,13 @@ table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid v
 const sections=[['itinerary','🗓️','行程安排'],['refs','🔗','行程參考資料'],['shopping','🛍️','採購清單'],['luggage','🧳','行李清單'],['emergency','☎️','緊急號碼'],['notes','📌','注意事項']];
 // Firebase Console > Project settings > Your apps：將下方設定換成自己的 Web App 設定
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBfeRc07HmDiXduRdOmtdaDyqzCwVn7K0A",
+  authDomain: "travel-14af6.firebaseapp.com",
+  projectId: "travel-14af6",
+  storageBucket: "travel-14af6.firebasestorage.app",
+  messagingSenderId: "986313901956",
+  appId: "1:986313901956:web:c5333cc75f5d4510c07fd1",
+  measurementId: "G-Z4EV9K94NX"
 };
 let firebaseReady=false, auth=null, db=null, currentUser=null, syncTimer=null;
 let trips=JSON.parse(localStorage.getItem('luluTrips')||'[]'),current=null,section='itinerary',page=0,modalSave=null,activeDayId=null,activeShopId=null,activePlanId=null;
