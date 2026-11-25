@@ -369,15 +369,26 @@ function editTrip(){let t=activeTrip();showModal('編輯旅程',`<div class="for
 function deleteTrip(){if(confirm('確定刪除整趟旅程？這個動作無法復原。')){trips=trips.filter(x=>x.id!==current);current=null;persist();goHome()}}
 function exportData(){let blob=new Blob([JSON.stringify(trips,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='旅記備份.json';a.click();URL.revokeObjectURL(a.href)}
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let data=JSON.parse(r.result);if(!Array.isArray(data))throw 0;if(confirm('匯入會以檔案內容取代目前所有旅程，確定嗎？')){trips=data;persist();goHome()}}catch{alert('檔案格式不正確')}};r.readAsText(f);e.target.value=''}
+let isLoggingIn = false;
 async function googleLogin(){
+  if(isLoggingIn) return;
   if(currentUser && auth){if(confirm('要登出 Google 帳號嗎？'))await auth.signOut();return;}
   if(!initFirebase())return;
+  isLoggingIn = true;
   try{
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const provider=new firebase.auth.GoogleAuthProvider();
     await auth.signInWithPopup(provider);
   }
-  catch(err){console.error(err);alert('Google 登入失敗：'+err.message);}
+  catch(err){
+    if(err.code !== 'auth/cancelled-popup-request'){
+      console.error(err);
+      alert('Google 登入失敗：'+err.message);
+    }
+  }
+  finally{
+    isLoggingIn = false;
+  }
 }
 renderHome();
 </script>
