@@ -375,7 +375,7 @@ async function googleLogin(){
   try{
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     const provider=new firebase.auth.GoogleAuthProvider();
-    await auth.signInWithRedirect(provider);
+    await auth.signInWithPopup(provider);
   }
   catch(err){console.error(err);alert('Google 登入失敗：'+err.message);}
 }
