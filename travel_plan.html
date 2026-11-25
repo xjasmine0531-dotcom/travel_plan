@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>旅記｜我的旅行規劃</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap');
+:root{--bg:#f2f4f7;--paper:#fffefe;--ink:#566575;--muted:#929eac;--green:#9eafc3;--green2:#e2e9f1;--pink:#e9e5eb;--yellow:#eeeae2;--blue:#dce6f0;--line:#e1e7ee;--shadow:0 8px 24px #71849a18;--forest:#8fa4bb}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 8% 8%,#e5ebf2 0,transparent 25%),radial-gradient(ellipse at 94% 28%,#eee9ef 0,transparent 22%),var(--bg);color:var(--ink);font-family:Nunito,"Noto Sans TC",sans-serif;font-size:14px}
+button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none}a{color:#718ba8;word-break:break-all}
+header{height:68px;background:#fffef9eF;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
+.logo{font-size:21px;font-weight:800;letter-spacing:1px}.logo span{color:#91a8c0}.topnav{display:flex;gap:14px;align-items:center}.topnav button,.softbtn{padding:9px 14px;border-radius:20px;background:#edf1f6}.topnav button.active,.primary{background:var(--green);color:white}.topnav button:hover,.softbtn:hover{filter:brightness(.97)}
+main{width:min(1120px,100%);margin:34px auto;padding:0 22px 70px}.hero{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px}.eyebrow{color:#91a8c0;font-weight:800;letter-spacing:2px;font-size:11px}.hero h1{font-size:30px;margin:6px 0 4px}.sub{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.trip-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:var(--shadow);min-height:190px;position:relative;cursor:pointer;transition:.2s}.trip-card:hover{transform:translateY(-3px)}.trip-card:before{content:'✿';position:absolute;right:18px;top:12px;color:#c2cfdd;font-size:17px;opacity:.8}.dayhead{background:linear-gradient(90deg,#f2f6ec,#fbf8f0)}.trip-card .emoji{font-size:28px}.trip-card h3{font-size:18px;margin:12px 0 5px}.trip-card p{color:var(--muted);margin:0}.trip-card .mini{position:absolute;right:17px;bottom:16px;font-size:12px;color:#91a4b9}.add-card{border:2px dashed #cbd6e2;background:#f7f9fc;display:grid;place-items:center;color:#8fa4bb;font-weight:700;font-size:16px}
+.pager{display:flex;justify-content:center;align-items:center;gap:18px;margin:25px}.pager button{background:white;border:1px solid var(--line);border-radius:20px;padding:7px 13px}
+.workspace{display:none}.back{color:#8fa4bb;margin-bottom:16px;padding:7px 0}.trip-head{display:flex;align-items:center;justify-content:space-between;background:var(--green2);padding:22px 25px;border-radius:22px;margin-bottom:20px}.trip-head h1{margin:4px 0;font-size:25px}.trip-head>div:last-child{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.trip-layout{display:grid;grid-template-columns:205px 1fr;gap:18px}.side{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:10px;height:max-content;position:sticky;top:85px}.side button{width:100%;text-align:left;padding:12px;border-radius:12px;margin:2px 0}.side button.active{background:var(--green2);font-weight:800}.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;min-height:480px;min-width:0;box-shadow:var(--shadow)}.panel h2{margin:0 0 6px;font-size:21px}.hint{color:var(--muted);margin:0 0 20px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.primary,.softbtn{padding:9px 14px;border-radius:20px}.primary{background:#9eafc3}.danger{color:#c77c7c}.day{border:1px solid var(--line);border-radius:16px;margin:13px 0;overflow:hidden}.dayhead{display:flex;align-items:center;justify-content:space-between;background:#f0f3f7;padding:12px 15px}.dayhead input{font-weight:800;background:transparent;border:0;font-size:16px;width:180px}.item{padding:14px 15px;border-top:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}.type{font-size:11px;padding:5px 9px;border-radius:14px;background:var(--blue);white-space:nowrap}.item-main{flex:1;min-width:0}.item-title{font-weight:800;font-size:15px}.meta{color:var(--muted);font-size:12px;margin-top:5px}.item-actions{display:flex;gap:6px}.tiny{padding:5px 8px;border-radius:12px;background:#edf1f6;font-size:12px}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:11px}.field label{font-size:12px;color:#8798aa;font-weight:700}.field input,.field textarea,.field select,.inline-edit{border:1px solid var(--line);border-radius:11px;background:#fff;padding:10px 11px;outline:none;width:100%}.field textarea{min-height:78px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#9eafc3}.full{grid-column:1/-1}.listrow{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 3px}.listrow.done{opacity:.7}.listrow.done .rowtitle{text-decoration:line-through;color:#a4aaa0}.rowtitle{font-weight:700}.rowmeta{font-size:12px;color:var(--muted);margin-top:4px}.check{accent-color:#9eafc3;width:17px;height:17px;margin-top:3px}.empty{padding:30px;text-align:center;color:#9ba8b7;background:#fafbf7;border-radius:15px}
+table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#edf2f7;color:#7f91a5}td input{border:0;background:transparent;width:100%;min-width:70px;outline:none}.editable{border:1px solid var(--line);padding:12px;border-radius:12px;min-height:130px;outline:none;background:#fff;line-height:1.7}.reference{padding:12px;border:1px solid var(--line);border-radius:12px;margin:9px 0}.reference input{border:0;border-bottom:1px solid var(--line);padding:7px;width:40%;background:transparent}.reference a{margin-left:8px}
+.modalbg{display:none;position:fixed;inset:0;background:#34403355;z-index:30;align-items:center;justify-content:center;padding:16px}.modal{background:var(--paper);border-radius:20px;padding:23px;width:min(620px,100%);max-height:90vh;overflow:auto;box-shadow:0 15px 50px #34403333}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modalhead h3{margin:0}.close{font-size:23px}.footer-note{font-size:12px;color:#9ca79a;text-align:center;margin-top:35px}.sync-status{font-size:11px;color:#91a58a;margin-left:5px}.department-wrap{padding:12px 15px 16px;border-top:1px dashed var(--line);background:#fffefa}.day-card{border:1px solid var(--line);border-radius:16px;padding:15px 17px;margin:12px 0;background:#fff;cursor:pointer;transition:.18s}.day-card:hover{border-color:#b8c7d8;transform:translateY(-2px)}.day-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.day-card-title{font-size:17px;font-weight:800}.day-summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.day-summary span{font-size:12px;color:#74869b;background:#edf2f7;padding:5px 9px;border-radius:12px}.subpage-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}.subpage-head h2{margin:0}.photo-preview{max-width:100%;max-height:220px;object-fit:contain;border-radius:12px;border:1px solid var(--line);margin-top:8px}.shop-detail{border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;background:#fff}.department-title{font-weight:800;color:#8298b1;margin:2px 0 8px}.department-wrap table{min-width:650px}.department-wrap td input{min-width:95px}.time-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.plan-card{border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0;background:#fff;cursor:pointer;transition:.18s}.plan-card:hover{border-color:#b8c7d8;transform:translateY(-1px)}.plan-card-head{display:flex;align-items:flex-start;gap:12px}.plan-detail{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff;margin-top:12px}.detail-row{padding:10px 0;border-bottom:1px solid var(--line)}.detail-row:last-child{border-bottom:0}.detail-label{font-size:11px;color:var(--muted);font-weight:800;margin-bottom:4px}.day-swipe-hint{font-size:12px;color:var(--muted);text-align:center;margin:8px 0 14px}.sort-actions{display:flex;gap:5px;flex-wrap:wrap}.plan-detail img{max-width:100%;max-height:260px;object-fit:contain;border-radius:12px;margin-top:8px}.day-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0}.day-nav button{background:#edf1f6;border-radius:18px;padding:9px 14px;white-space:nowrap}.day-tabs{display:flex;gap:9px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:7px 2px 12px;margin:2px 0 8px;scrollbar-width:none}.day-tabs::-webkit-scrollbar{display:none}.day-tab{flex:0 0 auto;min-width:104px;padding:11px 16px;border:1px solid var(--line);border-radius:16px;background:#f7f9fc;color:#8192a5;text-align:center;font-weight:800;scroll-snap-align:center;transition:.18s}.day-tab.active{background:var(--green);border-color:var(--green);color:white;box-shadow:0 5px 14px #71849a26}.day-tab small{display:block;font-size:10px;font-weight:600;opacity:.8;margin-top:2px}.day-content{touch-action:pan-y}.plan-card .item-main{min-width:0}@media(max-width:560px){.plan-card{padding:12px}.day-nav button{font-size:12px}}@media(max-width:560px){.time-pair{grid-template-columns:1fr}}
+@media(max-width:760px){header{padding:10px 15px;height:auto;min-height:68px;align-items:flex-start;gap:12px;flex-wrap:wrap}.topnav{gap:10px;flex-wrap:wrap}.topnav button{padding:8px;font-size:12px}.cards{grid-template-columns:1fr 1fr}.trip-layout{grid-template-columns:1fr}.side{position:static;display:flex;overflow:auto;gap:4px}.side button{white-space:nowrap;width:auto}.trip-head{padding:16px}.formgrid{grid-template-columns:1fr}.hero h1{font-size:24px}}
+@media(max-width:470px){.cards{grid-template-columns:1fr}.logo{font-size:18px}.topnav{width:100%;gap:9px}.topnav button{font-size:11px;padding:8px 10px}.panel{padding:15px}.item{padding:12px 9px}.trip-head{align-items:flex-start;gap:14px;flex-direction:column}.trip-head>div:last-child{gap:14px}.trip-head h1{font-size:20px}.day-nav{gap:6px}.day-nav button{padding:8px 10px}.day-tabs{margin-left:-3px;margin-right:-3px}.day-tab{min-width:92px;padding:10px 13px}.day-swipe-hint{font-size:11px}}
+</style>
+</head>
+<body>
+<header><div class="logo"><span>✿</span> 旅記 <span>✿</span></div><nav class="topnav"><button class="active" id="navHome" onclick="goHome()">我的旅程</button><button onclick="exportData()">匯出備份</button><button onclick="document.getElementById('importFile').click()">匯入</button><button onclick="googleLogin()">Google 登入／同步</button><span id="syncStatus" class="sync-status"></span></nav></header>
+<main>
+<section id="home">
+ <div class="hero"><div><div class="eyebrow">MY LITTLE TRAVEL PLANNER</div><h1>我的旅程</h1><div class="sub">把每一段旅途，好好收藏起來。</div></div><button class="primary" onclick="newTrip()">＋ 新增旅程</button></div>
+ <div class="cards" id="tripCards"></div><div class="pager" id="pager"></div>
+ <div class="footer-note">🌿 尚未登入時資料儲存在目前裝置；登入 Google 並完成 Firebase 設定後即可同步雲端。建議仍定期匯出備份。</div>
+</section>
+<section id="workspace" class="workspace">
+ <button class="back" onclick="goHome()">← 回到我的旅程</button>
+ <div class="trip-head"><div><div class="eyebrow">YOUR TRAVEL NOTEBOOK</div><h1 id="tripTitle">旅程名稱</h1><div class="sub" id="tripDates"></div></div><div><button class="softbtn" onclick="editTrip()">✎ 編輯旅程</button><button class="softbtn danger" onclick="deleteTrip()">刪除</button></div></div>
+ <div class="trip-layout"><aside class="side" id="sideNav"></aside><div class="panel" id="panel"></div></div>
+</section>
+</main>
+<div class="modalbg" id="modalbg"><div class="modal"><div class="modalhead"><h3 id="modalTitle">新增</h3><button type="button" class="close" onclick="closeModal()">×</button></div><div id="modalBody"></div><div class="toolbar"><button class="primary" onclick="saveModal()">儲存</button><button class="softbtn" onclick="closeModal()">取消</button></div></div></div>
+<input type="file" id="importFile" accept="application/json" hidden onchange="importData(event)">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const sections=[['itinerary','🗓️','行程安排'],['refs','🔗','行程參考資料'],['shopping','🛍️','採購清單'],['luggage','🧳','行李清單'],['emergency','☎️','緊急號碼'],['notes','📌','注意事項']];
+// Firebase Console > Project settings > Your apps：將下方設定換成自己的 Web App 設定
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  appId: "YOUR_APP_ID"
+};
+let firebaseReady=false, auth=null, db=null, currentUser=null, syncTimer=null;
+let trips=JSON.parse(localStorage.getItem('luluTrips')||'[]'),current=null,section='itinerary',page=0,modalSave=null,activeDayId=null,activeShopId=null,activePlanId=null;
+const $=id=>document.getElementById(id);
+const uid=()=>Math.random().toString(36).slice(2,10);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function persist(){
+  localStorage.setItem('luluTrips',JSON.stringify(trips));
+  if(currentUser && db){
+    clearTimeout(syncTimer);
+    syncTimer=setTimeout(async()=>{
+      try{
+        await db.collection('users').doc(currentUser.uid).set({trips:trips,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+        const s=$('syncStatus'); if(s)s.textContent='☁ 已同步';
+      }catch(err){console.error(err);const s=$('syncStatus');if(s)s.textContent='同步失敗';}
+    },700);
+  }
+}
+function initFirebase(){
+  if(firebaseReady)return true;
+  if(!window.firebase || firebaseConfig.apiKey==="YOUR_API_KEY" || firebaseConfig.projectId==="YOUR_PROJECT_ID"){
+    alert('請先在 HTML 的 firebaseConfig 填入 Firebase 專案設定，並啟用 Google 登入與 Cloud Firestore。');
+    return false;
+  }
+  try{
+    firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();firebaseReady=true;
+    auth.onAuthStateChanged(async user=>{
+      currentUser=user;
+      const btn=document.querySelector('[onclick="googleLogin()"]');
+      if(btn)btn.textContent=user?'登出／已登入':'Google 登入／同步';
+      const s=$('syncStatus');if(s)s.textContent=user?'☁ 雲端同步中':'';
+      if(user){
+        try{
+          const snap=await db.collection('users').doc(user.uid).get();
+          if(snap.exists && Array.isArray(snap.data().trips)){
+            const cloudTrips=snap.data().trips;
+            if(!trips.length){trips=cloudTrips;localStorage.setItem('luluTrips',JSON.stringify(trips));}
+            else if(confirm('雲端已有旅程資料。要以雲端資料取代目前這台裝置的資料嗎？按「取消」則保留本機資料並上傳至雲端。')){
+              trips=cloudTrips;localStorage.setItem('luluTrips',JSON.stringify(trips));
+            }
+          }
+          await db.collection('users').doc(user.uid).set({trips:trips,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+          const st=$('syncStatus');if(st)st.textContent='☁ 已同步';
+          renderHome();if(current)renderWorkspace();
+        }catch(err){console.error(err);alert('讀取雲端資料失敗：'+err.message);}
+      }
+    });
+    return true;
+  }catch(err){console.error(err);alert('Firebase 初始化失敗：'+err.message);return false;}
+}
+function activeTrip(){return trips.find(t=>t.id===current)}
+function goHome(){activeDayId=null;activeShopId=null;activePlanId=null;$('home').style.display='block';$('workspace').style.display='none';renderHome()}
+function renderHome(){let cards=$('tripCards');cards.innerHTML='';let total=Math.max(1,Math.ceil(trips.length/5));page=Math.min(page,total-1);
+trips.slice(page*5,page*5+5).forEach(t=>{let d=document.createElement('div');d.className='trip-card';d.innerHTML=`<div class="emoji">${esc(t.emoji||'🌷')}</div><h3>${esc(t.name)}</h3><p>${esc(t.place||'還沒決定目的地')}</p><p>${esc(t.start||'日期未設定')}${t.end?' ～ '+esc(t.end):''}</p><div class="mini">打開旅程 ↗</div>`;d.onclick=()=>openTrip(t.id);cards.appendChild(d)});
+let add=document.createElement('button');add.className='trip-card add-card';add.innerHTML='＋<br>新增一趟旅程';add.onclick=newTrip;cards.appendChild(add);
+$('pager').innerHTML=`<button ${page===0?'disabled':''} onclick="page--;renderHome()">← 上一頁</button><span>${page+1} / ${total}</span><button ${page>=total-1?'disabled':''} onclick="page++;renderHome()">下一頁 →</button>`}
+function openTrip(id){current=id;section='itinerary';activeDayId=null;activeShopId=null;activePlanId=null;$('home').style.display='none';$('workspace').style.display='block';renderWorkspace()}
+function renderWorkspace(){let t=activeTrip();if(!t)return goHome();$('tripTitle').textContent=t.name;$('tripDates').textContent=[t.place,t.start,t.end].filter(Boolean).join(' · ');$('sideNav').innerHTML=sections.map(([id,ic,n])=>`<button class="${section===id?'active':''}" onclick="section='${id}';activeDayId=null;activeShopId=null;renderWorkspace()">${ic} ${n}</button>`).join('');renderPanel()}
+function ensure(t,key,def){if(!t[key])t[key]=def}
+function renderPanel(){
+  let t=activeTrip(),p=$('panel');
+  if(section==='itinerary' && activeDayId && activePlanId)return planDetail(p,t);
+  if(section==='itinerary' && activeDayId)return dayDetail(p,t);
+  if(section==='shopping' && activeShopId)return shopDetail(p,t);
+  if(section==='itinerary')return itinerary(p,t);
+  if(section==='refs')return refs(p,t);
+  if(section==='shopping')return shopping(p,t);
+  if(section==='luggage')return luggage(p,t);
+  if(section==='emergency')return emergency(p,t);
+  if(section==='notes')return notes(p,t);
+}
+function heading(title,desc,actions=''){return `<h2>${title}</h2><p class="hint">${desc}</p><div class="toolbar">${actions}</div>`}
+function itinerary(p,t){
+  ensure(t,'days',[]);
+  const actions=`<button class="primary" onclick="addDay()">＋ 新增天數</button><button class="softbtn" onclick="editTrip()">✎ 編輯旅程資訊</button>`;
+  const cards=t.days.length?t.days.map((d,i)=>{
+    const summary=(d.items||[]).map(it=>`<span>${esc(it.title||'未命名行程')} · ${esc(it.type||'其他')} · ${esc(it.date||'日期未定')} ${esc(it.startTime||it.time||'')}${it.endTime?'～'+esc(it.endTime):''}</span>`).join('');
+    return `<div class="day-card" onclick="openDay('${d.id}')"><div class="day-card-head"><div class="day-card-title">☁ ${esc(d.name||'第'+(i+1)+'天')}</div><span class="tiny">進入天數頁面 →</span></div><div class="day-summary">${summary||'<span>尚未安排行程</span>'}</div></div>`;
+  }).join(''):'<div class="empty">還沒有天數，先新增第一天吧。</div>';
+  p.innerHTML=heading('行程安排','點選天數進入專屬頁面，管理當天行程與百貨清單。',actions)+cards;
+  persist();
+}
+function openDay(id){activeDayId=id;renderPanel()}
+function closeDay(){activeDayId=null;renderPanel()}
+function dayDetail(p,t){
+  const d=t.days.find(x=>x.id===activeDayId);if(!d){activeDayId=null;return itinerary(p,t);}
+  ensure(d,'items',[]);ensure(d,'departmentRows',[]);
+  const dayIndex=t.days.findIndex(x=>x.id===d.id),prev=t.days[dayIndex-1],next=t.days[dayIndex+1];
+  const cards=(d.items||[]).map((it,i)=>`
+    <div class="plan-card" onclick="openPlanDetail('${d.id}','${it.id}')">
+      <div class="plan-card-head"><span class="type">${esc(it.type||'其他')}</span><div class="item-main">
+        <div class="item-title">${esc(it.title||'未命名行程')}</div>
+        <div class="meta">${esc(it.date||'日期未定')}　${esc(it.startTime||it.time||'未設定時間')}${it.endTime?' ～ '+esc(it.endTime):''}</div>
+        ${it.place?`<div class="meta">📍 ${esc(it.place)}</div>`:''}
+      </div><span class="tiny">詳細 ↗</span></div>
+      <div class="toolbar sort-actions">
+        <button type="button" class="tiny" onclick="event.stopPropagation();movePlan('${d.id}','${it.id}',-1)" ${i===0?'disabled':''}>↑ 上移</button>
+        <button type="button" class="tiny" onclick="event.stopPropagation();movePlan('${d.id}','${it.id}',1)" ${i===d.items.length-1?'disabled':''}>↓ 下移</button>
+        <button type="button" class="tiny danger" onclick="event.stopPropagation();removePlan('${d.id}','${it.id}')">刪除</button>
+      </div>
+    </div>`).join('');
+  p.innerHTML=`
+    <div class="subpage-head"><button class="back" onclick="closeDay()">← 回到行程安排</button><h2>${esc(d.name||'天數')}</h2></div>
+    <div class="day-tabs" role="tablist" aria-label="選擇旅程天數">${t.days.map((day,i)=>`<button type="button" role="tab" aria-selected="${day.id===d.id}" class="day-tab ${day.id===d.id?'active':''}" onclick="switchDay('${day.id}')">${esc(day.name||'第'+(i+1)+'天')}<small>DAY ${String(i+1).padStart(2,'0')}</small></button>`).join('')}</div>
+    <div class="day-nav"><button type="button" onclick="${prev?`switchDay('${prev.id}')`:'return false'}" ${prev?'':'disabled'}>← 前一天</button><span class="meta">第 ${dayIndex+1} / ${t.days.length} 天</span><button type="button" onclick="${next?`switchDay('${next.id}')`:'return false'}" ${next?'':'disabled'}>後一天 →</button></div>
+    <div class="day-swipe-hint">左右滑動頁面，或點選上方天數分頁切換</div>
+    <div class="toolbar"><button class="primary" onclick="addPlan('${d.id}')">＋ 新增行程</button><button class="softbtn" onclick="editDay('${d.id}')">✎ 編輯天數</button><button class="softbtn danger" onclick="removeDay('${d.id}')">刪除天數</button></div>
+    <h3>🗓️ 當日行程</h3>${cards||'<div class="empty">這天還沒有行程，新增第一站吧！</div>'}
+    `;
+  attachDaySwipe(p);
+}
+function attachDaySwipe(el){
+  let sx=0,sy=0;
+  const start=(x,y)=>{sx=x;sy=y;};
+  const end=(x,y,target)=>{
+    if(!sx)return;
+    const dx=x-sx,dy=y-sy;sx=0;
+    if(target?.closest?.('.day-tabs,button,input,textarea,a'))return;
+    if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.2){
+      const trip=activeTrip(),i=trip.days.findIndex(x=>x.id===activeDayId);
+      if(dx<0&&i<trip.days.length-1)switchDay(trip.days[i+1].id);
+      else if(dx>0&&i>0)switchDay(trip.days[i-1].id);
+    }
+  };
+  el.ontouchstart=e=>{const t=e.touches[0];start(t.clientX,t.clientY);};
+  el.ontouchend=e=>{const t=e.changedTouches[0];end(t.clientX,t.clientY,e.target);};
+  el.onpointerdown=e=>{if(e.pointerType==='mouse')start(e.clientX,e.clientY);};
+  el.onpointerup=e=>{if(e.pointerType==='mouse')end(e.clientX,e.clientY,e.target);};
+}
+function switchDay(id){activeDayId=id;activePlanId=null;renderPanel();}
+function openPlanDetail(dayId,planId){activeDayId=dayId;activePlanId=planId;renderPanel();}
+function closePlanDetail(){activePlanId=null;renderPanel();}
+function planDetail(p,t){
+  const d=t.days.find(x=>x.id===activeDayId),it=d?.items?.find(x=>x.id===activePlanId);
+  if(!d||!it){activePlanId=null;return dayDetail(p,t);}
+  p.innerHTML=`<div class="subpage-head"><button class="back" onclick="closePlanDetail()">← 回到${esc(d.name||'當日行程')}</button><h2>${esc(it.title||'未命名行程')}</h2></div>
+    <div class="toolbar"><button class="primary" onclick="editPlan('${d.id}','${it.id}')">✎ 編輯行程</button><button type="button" class="softbtn danger" onclick="removePlan('${d.id}','${it.id}')">刪除行程</button></div>
+    <div class="plan-detail">
+      <div class="detail-row"><div class="detail-label">行程類型</div>${esc(it.type||'其他')}</div>
+      <div class="detail-row"><div class="detail-label">日期與時間</div>${esc(it.date||'日期未設定')}　${esc(it.startTime||it.time||'時間未設定')}${it.endTime?' ～ '+esc(it.endTime):''}</div>
+      <div class="detail-row"><div class="detail-label">地點</div>${esc(it.place||'尚未填寫')}</div>
+      <div class="detail-row"><div class="detail-label">備註／其他資訊</div>${esc(it.note||'尚未填寫').replace(/\n/g,'<br>')}</div>
+      ${it.url?`<div class="detail-row"><div class="detail-label">相關連結</div><a href="${esc(it.url)}" target="_blank" rel="noopener">開啟相關連結 ↗</a></div>`:''}
+      ${it.image?`<div class="detail-row"><div class="detail-label">照片</div><img src="${it.image}" alt="行程照片"></div>`:''}
+      <div class="detail-row"><div class="detail-label">百貨／店家資料</div>${(it.departmentRows||[]).length?(it.departmentRows||[]).map(r=>`<div class="reference"><b>${esc(r.name||'未命名店家')}</b><div class="meta">${esc(r.floor||'')}${r.note?' · '+esc(r.note):''}</div>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">開啟 ↗</a>`:''}</div>`).join(''):'尚未新增百貨／店家資料'}</div>
+    </div>`;
+}
+function editDay(id){
+  const d=activeTrip().days.find(x=>x.id===id);if(!d)return;
+  showModal('編輯天數',`<div class="field"><label>天數名稱</label><input id="f_dayname" value="${esc(d.name||'')}"></div>`,()=>{
+    d.name=$('f_dayname').value||'未命名天數';persist();renderPanel();
+  });
+}
+function renderDepartmentTable(day){
+  const rows=day.departmentRows||[];
+  return `<div class="department-wrap"><div style="overflow:auto"><table><thead><tr><th>店家名稱</th><th>樓層</th><th>超連結</th><th>備註</th><th>操作</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td><input value="${esc(r.name||'')}" placeholder="店家名稱" onchange="updateDepartmentCell('${day.id}',${i},'name',this.value)"></td><td><input value="${esc(r.floor||'')}" placeholder="例：3F" onchange="updateDepartmentCell('${day.id}',${i},'floor',this.value)"></td><td><input value="${esc(r.url||'')}" placeholder="https://..." onchange="updateDepartmentCell('${day.id}',${i},'url',this.value)">${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">開啟 ↗</a>`:''}</td><td><input value="${esc(r.note||'')}" placeholder="備註" onchange="updateDepartmentCell('${day.id}',${i},'note',this.value)"></td><td><button type="button" class="tiny danger" onclick="removeDepartmentRow('${day.id}',${i})">×</button></td></tr>`).join('')}</tbody></table></div><button type="button" class="tiny" onclick="addDepartmentRow('${day.id}')">＋ 新增資料列</button></div>`;
+}
+function addDepartmentRow(dayId){
+  const day=activeTrip().days.find(x=>x.id===dayId);if(!day)return;
+  day.departmentRows=day.departmentRows||[];day.departmentRows.push({name:'',floor:'',url:'',note:''});persist();renderPanel();
+}
+function updateDepartmentCell(dayId,row,key,value){
+  const day=activeTrip().days.find(x=>x.id===dayId);if(day&&day.departmentRows&&day.departmentRows[row])day.departmentRows[row][key]=value;persist();
+}
+function removeDepartmentRow(dayId,row){
+  const day=activeTrip().days.find(x=>x.id===dayId);if(day&&day.departmentRows){day.departmentRows.splice(row,1);persist();renderPanel();}
+}
+
+function renderCustomTables(t){return (t.tables||[]).map(tb=>`<div class="day"><div class="dayhead"><input value="${esc(tb.title||'自訂表格')}" onchange="renameTable('${tb.id}',this.value)"><span><button class="tiny" onclick="addTableColumn('${tb.id}')">＋ 欄位</button> <button class="tiny" onclick="addTableRow('${tb.id}')">＋ 列</button> <button type="button" class="tiny danger" onclick="removeTable('${tb.id}')">刪除表格</button></span></div><div style="overflow:auto;padding:10px"><table><thead><tr>${tb.columns.map((c,i)=>`<th><input value="${esc(c)}" onchange="renameTableColumn('${tb.id}',${i},this.value)" style="width:100%;border:0;background:transparent;font-weight:700"></th>`).join('')}<th>操作</th></tr></thead><tbody>${tb.rows.map((r,ri)=>`<tr>${tb.columns.map((c,ci)=>`<td><input value="${esc(r[ci]||'')}" onchange="updateTableCell('${tb.id}',${ri},${ci},this.value)"></td>`).join('')}<td><button type="button" class="tiny danger" onclick="removeTableRow('${tb.id}',${ri})">刪除</button></td></tr>`).join('')}</tbody></table></div></div>`).join('')}
+function addCustomTable(){let t=activeTrip();showModal('新增自訂表格',`<div class="field"><label>表格名稱</label><input id="f_title" value="想去的百貨／店家整理"></div><div class="field"><label>欄位名稱（用逗號分隔）</label><input id="f_cols" value="百貨／店家,樓層,想逛的店,資訊／備註,連結"></div>`,()=>{let cols=$('f_cols').value.split(',').map(x=>x.trim()).filter(Boolean);t.tables.push({id:uid(),title:$('f_title').value,columns:cols.length?cols:['名稱','資訊'],rows:[]});persist();renderPanel()})}
+function renameTable(id,v){let x=activeTrip().tables.find(x=>x.id===id);if(x)x.title=v;persist()}
+function addTableColumn(id){let x=activeTrip().tables.find(x=>x.id===id);let name=prompt('新欄位名稱？','新欄位');if(name){x.columns.push(name);x.rows.forEach(r=>r.push(''));persist();renderPanel()}}
+function renameTableColumn(id,i,v){let x=activeTrip().tables.find(x=>x.id===id);x.columns[i]=v;persist()}
+function addTableRow(id){let x=activeTrip().tables.find(x=>x.id===id);x.rows.push(x.columns.map(()=>''));persist();renderPanel()}
+function updateTableCell(id,r,c,v){let x=activeTrip().tables.find(x=>x.id===id);x.rows[r][c]=v;persist()}
+function removeTableRow(id,i){let x=activeTrip().tables.find(x=>x.id===id);x.rows.splice(i,1);persist();renderPanel()}
+function removeTable(id){if(confirm('確定刪除這個表格？')){let t=activeTrip();t.tables=t.tables.filter(x=>x.id!==id);persist();renderPanel()}}
+function addDay(){let t=activeTrip();let d={id:uid(),name:'第'+(t.days.length+1)+'天',items:[],departmentRows:[]};t.days.push(d);activeDayId=d.id;persist();renderPanel()}
+function updateDayName(id,v){let d=activeTrip().days.find(x=>x.id===id);if(d)d.name=v;persist()}
+function removeDay(id){if(!confirm('確定刪除這一天和裡面的行程？'))return;let t=activeTrip();t.days=t.days.filter(x=>String(x.id)!==String(id));activeDayId=null;activePlanId=null;persist();renderPanel()}
+function addPlan(dayId,id=null){
+  let t=activeTrip(),d=t.days.find(x=>x.id===dayId),old=d.items.find(x=>x.id===id)||{};
+  showModal(id?'編輯行程':'新增行程',`
+    <div class="formgrid">
+      <div class="field"><label>行程名稱</label><input id="f_title" value="${esc(old.title||'')}" placeholder="例如：逛百貨、吃午餐"></div>
+      <div class="field"><label>行程類型</label><select id="f_type_select" onchange="document.getElementById('f_type_custom').value=this.value"><option>住宿</option><option>移動</option><option>逛街</option><option>吃飯</option><option>景點</option><option>其他</option></select><input id="f_type_custom" value="${esc(old.type||'景點')}" placeholder="可自行輸入類型"></div>
+      <div class="field"><label>日期</label><input id="f_date" type="date" value="${esc(old.date||'')}"></div>
+      <div class="field"><label>開始／結束時間</label><div class="time-pair"><input id="f_start_time" type="time" value="${esc(old.startTime||old.time||'')}" aria-label="開始時間"><input id="f_end_time" type="time" value="${esc(old.endTime||'')}" aria-label="結束時間"></div></div>
+      <div class="field full"><label>地點</label><input id="f_place" value="${esc(old.place||'')}" placeholder="地址或店名"></div>
+      <div class="field full"><label>備註／其他資訊</label><textarea id="f_note">${esc(old.note||'')}</textarea></div>
+      <div class="field full"><label>超連結</label><input id="f_url" value="${esc(old.url||'')}" placeholder="https://..."></div>
+      <div class="field full"><label>行程照片</label><input id="f_image_file" type="file" accept="image/*" onchange="previewPlanImage(event)"><img id="plan_image_preview" class="photo-preview" src="${old.image||''}" alt="行程照片預覽" style="${old.image?'':'display:none'}"><button type="button" class="tiny" onclick="clearPlanImage()">移除照片</button></div>
+      <div class="field full"><label>百貨／店家資料（可新增多筆）</label><div id="plan_department_editor">${renderPlanDepartmentEditor(old.departmentRows||[])}</div><button type="button" class="tiny" onclick="addPlanDepartmentEditorRow()">＋ 新增店家</button></div>
+    </div>`,()=>{
+      const item={id:old.id||uid(),title:$('f_title').value,type:$('f_type_custom').value.trim()||$('f_type_select').value,date:$('f_date').value,startTime:$('f_start_time').value,endTime:$('f_end_time').value,place:$('f_place').value,note:$('f_note').value,url:$('f_url').value,image:old.image||'',departmentRows:old.departmentRows||[]};
+      const preview=$('plan_image_preview');if(preview?.dataset.removeImage==='1')item.image='';else if(preview?.dataset.newImage==='1')item.image=preview.src;
+      item.departmentRows=readPlanDepartmentEditor();
+      if(id)Object.assign(old,item);else d.items.push(item);
+      persist();activePlanId=null;renderPanel();
+    });
+  $('f_type_select').value=['住宿','移動','逛街','吃飯','景點','其他'].includes(old.type)?old.type:'其他';
+}
+function renderPlanDepartmentEditor(rows){
+  return (rows||[]).map(r=>`<div class="reference plan-dept-row"><div class="formgrid"><div class="field"><label>店家名稱</label><input class="pd-name" value="${esc(r.name||'')}"></div><div class="field"><label>樓層</label><input class="pd-floor" value="${esc(r.floor||'')}"></div><div class="field full"><label>連結</label><input class="pd-url" value="${esc(r.url||'')}"></div><div class="field full"><label>備註</label><input class="pd-note" value="${esc(r.note||'')}"></div></div><button type="button" class="tiny danger" onclick="this.closest('.plan-dept-row').remove()">刪除此店家</button></div>`).join('');
+}
+function addPlanDepartmentEditorRow(){const wrap=$('plan_department_editor');if(wrap)wrap.insertAdjacentHTML('beforeend',renderPlanDepartmentEditor([{name:'',floor:'',url:'',note:''}]));}
+function readPlanDepartmentEditor(){return [...document.querySelectorAll('#plan_department_editor .plan-dept-row')].map(row=>({name:row.querySelector('.pd-name').value,floor:row.querySelector('.pd-floor').value,url:row.querySelector('.pd-url').value,note:row.querySelector('.pd-note').value}));}
+function previewPlanImage(event){const file=event.target.files&&event.target.files[0];if(!file)return;compressImageFile(file,data=>{const img=$('plan_image_preview');img.src=data;img.style.display='block';img.dataset.newImage='1';delete img.dataset.removeImage;});}
+function clearPlanImage(){const img=$('plan_image_preview');if(img){img.src='';img.style.display='none';img.dataset.removeImage='1';delete img.dataset.newImage;}}
+function editPlan(d,i){addPlan(d,i)}
+function removePlan(dayId,planId){
+  if(!confirm('確定刪除這筆行程？'))return;
+  const day=activeTrip().days.find(x=>String(x.id)===String(dayId));if(!day)return;
+  day.items=day.items.filter(x=>String(x.id)!==String(planId));activePlanId=null;persist();renderPanel();
+}
+function movePlan(dayId,planId,delta){
+  const day=activeTrip().days.find(x=>String(x.id)===String(dayId));if(!day)return;
+  const i=day.items.findIndex(x=>String(x.id)===String(planId)),j=i+delta;if(i<0||j<0||j>=day.items.length)return;
+  [day.items[i],day.items[j]]=[day.items[j],day.items[i]];persist();renderPanel();
+}
+function refs(p,t){ensure(t,'refs',[]);p.innerHTML=heading('行程參考資料','把攻略、地圖、文章、影片通通收在這裡。','<button class="primary" onclick="addReference()">＋ 新增連結</button>')+(t.refs.map(r=>`<div class="reference"><b>${esc(r.title)}</b><div class="meta">${esc(r.note||'')}</div><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url)} ↗</a><button class="tiny" onclick="editReference('${r.id}')">編輯</button> <button type="button" class="tiny danger" onclick="deleteEntry('refs','${r.id}')">刪除</button></div>`).join('')||'<div class="empty">還沒有參考資料</div>')}
+function addReference(id){let t=activeTrip(),o=t.refs.find(x=>x.id===id)||{};showModal(id?'編輯參考資料':'新增參考資料',`<div class="field"><label>標題</label><input id="f_title" value="${esc(o.title||'')}"></div><div class="field"><label>連結</label><input id="f_url" value="${esc(o.url||'')}" placeholder="https://..."></div><div class="field"><label>備註</label><textarea id="f_note">${esc(o.note||'')}</textarea></div>`,()=>{let x={id:o.id||uid(),title:$('f_title').value,url:$('f_url').value,note:$('f_note').value};if(id)Object.assign(o,x);else t.refs.push(x);persist();renderPanel()})}function editReference(id){addReference(id)}
+function shopping(p,t){
+  ensure(t,'shopping',{buy:[],gift:[]});let s=t.shopping;
+  p.innerHTML=heading('採購清單','點選項目進入獨立編輯頁面，也可以為項目新增圖片。')+
+  `<div class="toolbar"><button class="softbtn ${t.shopTab!=='gift'?'primary':''}" onclick="activeTrip().shopTab='buy';activeShopId=null;renderPanel()">🛒 購買清單</button><button class="softbtn ${t.shopTab==='gift'?'primary':''}" onclick="activeTrip().shopTab='gift';activeShopId=null;renderPanel()">🎁 伴手禮</button><button class="primary" onclick="addShop()">＋ 新增項目</button></div>`+
+  renderShopRows(s[t.shopTab||'buy'],t.shopTab||'buy');
+}
+function renderShopRows(rows,tab){
+  return rows.map(x=>`<div class="shop-detail" onclick="openShop('${x.id}','${tab}')"><div class="day-card-head"><div class="rowtitle">${tab==='gift'?'🎁 '+esc(x.name||'未填寫收禮人')+'｜內容物：'+esc(x.content||'未填寫'):esc(x.name||'未命名項目')}</div><span class="tiny">編輯 →</span></div><div class="rowmeta">${esc(x.place||'')}${x.note?' · '+esc(x.note):''}</div>${x.image?`<img class="photo-preview" src="${x.image}" alt="項目圖片">`:''}</div>`).join('')||'<div class="empty">清單空空的，等你來填滿。</div>';
+}
+function openShop(id,tab){activeTrip().shopTab=tab;activeShopId=id;renderPanel()}
+function closeShop(){activeShopId=null;renderPanel()}
+function shopDetail(p,t){
+  const tab=t.shopTab||'buy',rows=t.shopping[tab]||[],o=rows.find(x=>x.id===activeShopId);
+  if(!o){activeShopId=null;return shopping(p,t);}
+  p.innerHTML=`<div class="subpage-head"><button class="back" onclick="closeShop()">← 回到採購清單</button><h2>${tab==='gift'?'伴手禮編輯':'採購項目編輯'}</h2></div>
+  <div class="toolbar"><button class="primary" onclick="saveShopDetail('${o.id}','${tab}')">儲存修改</button><button class="softbtn danger" onclick="deleteEntry('shopping','${o.id}','${tab}')">刪除項目</button></div>
+  <div class="formgrid"><div class="field"><label>${tab==='gift'?'收禮人名字':'項目名稱'}</label><input id="shop_name" value="${esc(o.name||'')}"></div>
+  ${tab==='gift'?`<div class="field"><label>內容物</label><input id="shop_content" value="${esc(o.content||'')}"></div>`:''}
+  <div class="field"><label>地點</label><input id="shop_place" value="${esc(o.place||'')}"></div><div class="field"><label>超連結</label><input id="shop_url" value="${esc(o.url||'')}" placeholder="https://..."></div>
+  <div class="field full"><label>備註</label><textarea id="shop_note">${esc(o.note||'')}</textarea></div>
+  <div class="field full"><label>新增圖片</label><input id="shop_image" type="file" accept="image/*" onchange="previewShopImage(event)"><img id="shop_image_preview" class="photo-preview" src="${o.image||''}" alt="圖片預覽" style="${o.image?'':'display:none'}"><button type="button" class="tiny" onclick="clearShopImage()">移除圖片</button></div></div>`;
+}
+function compressImageFile(file,done){
+  if(!file.type.startsWith('image/')){alert('請選擇圖片檔案');return;}
+  if(file.size>12*1024*1024){alert('圖片請選擇 12MB 以下的檔案。');return;}
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const image=new Image();
+    image.onload=()=>{
+      const max=1200,scale=Math.min(1,max/Math.max(image.width,image.height));
+      const canvas=document.createElement('canvas');canvas.width=Math.round(image.width*scale);canvas.height=Math.round(image.height*scale);
+      canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
+      done(canvas.toDataURL('image/jpeg',0.78));
+    };
+    image.onerror=()=>alert('圖片讀取失敗，請換一張圖片。');
+    image.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+function previewDayImage(event){
+  const file=event.target.files&&event.target.files[0];if(!file)return;
+  compressImageFile(file,data=>{const day=activeTrip().days.find(x=>x.id===activeDayId);if(!day)return;day.image=data;persist();const img=$('day_image_preview');img.src=data;img.style.display='block';});
+}
+function clearDayImage(){const day=activeTrip().days.find(x=>x.id===activeDayId);if(day){day.image='';persist();const img=$('day_image_preview');img.src='';img.style.display='none';}}
+function previewShopImage(event){
+  const file=event.target.files&&event.target.files[0];if(!file)return;
+  compressImageFile(file,data=>{const img=$('shop_image_preview');img.src=data;img.style.display='block';img.dataset.newImage='1';});
+}
+function clearShopImage(){const img=$('shop_image_preview');if(img){img.src='';img.style.display='none';img.dataset.removeImage='1';}}
+function saveShopDetail(id,tab){
+  const o=activeTrip().shopping[tab].find(x=>x.id===id);if(!o)return;
+  o.name=$('shop_name').value;o.content=$('shop_content')?.value||'';o.place=$('shop_place').value;o.url=$('shop_url').value;o.note=$('shop_note').value;
+  const img=$('shop_image_preview');if(img?.dataset.removeImage==='1')o.image='';else if(img?.dataset.newImage==='1')o.image=img.src;
+  persist();renderPanel();
+}
+function addShop(id,tab){
+  let t=activeTrip();tab=tab||t.shopTab||'buy';let rows=t.shopping[tab];
+  if(id){activeShopId=id;renderPanel();return;}
+  const x={id:uid(),name:'',content:'',place:'',url:'',note:'',done:false,image:''};
+  rows.push(x);persist();activeShopId=x.id;renderPanel();
+}
+function editShop(id,tab){openShop(id,tab)}
+
+function luggage(p,t){ensure(t,'luggage',[]);p.innerHTML=heading('行李清單','分類可以自己改，打包進度一眼掌握。','<button class="primary" onclick="addLuggage()">＋ 新增物品</button>')+t.luggage.map(x=>`<div class="listrow ${x.done?'done':''}"><input class="check" type="checkbox" ${x.done?'checked':''} onchange="toggleEntry('luggage','${x.id}',this.checked)"><div><div class="rowtitle">${esc(x.name)}</div><div class="rowmeta">${esc(x.category||'未分類')} ${x.note?'・'+esc(x.note):''}</div></div><div><button class="tiny" onclick="editLuggage('${x.id}')">編輯</button> <button type="button" class="tiny danger" onclick="deleteEntry('luggage','${x.id}')">×</button></div></div>`).join('')||'<div class="empty">還沒有行李項目</div>';}
+function addLuggage(id){let t=activeTrip(),o=t.luggage.find(x=>x.id===id)||{};showModal('行李項目',`<div class="field"><label>物品名稱</label><input id="f_name" value="${esc(o.name||'')}"></div><div class="field"><label>分類（可自行輸入或選擇）</label><input id="f_category" list="categories" value="${esc(o.category||'')}"><datalist id="categories"><option>衣物</option><option>盥洗用品</option><option>3C 電子</option><option>證件票券</option><option>藥品</option><option>化妝保養</option><option>其他</option></datalist></div><div class="field"><label>備註</label><textarea id="f_note">${esc(o.note||'')}</textarea></div>`,()=>{let x={id:o.id||uid(),name:$('f_name').value,category:$('f_category').value,note:$('f_note').value,done:o.done||false};if(id)Object.assign(o,x);else t.luggage.push(x);persist();renderPanel()})}function editLuggage(id){addLuggage(id)}
+function emergency(p,t){ensure(t,'emergency',[]);p.innerHTML=heading('緊急號碼','把重要聯絡方式放在容易找到的地方。','<button class="primary" onclick="addEmergency()">＋ 新增聯絡資訊</button>')+`<table><thead><tr><th>名稱／單位</th><th>電話</th><th>備註</th><th></th></tr></thead><tbody>${t.emergency.map(x=>`<tr><td><input value="${esc(x.name)}" onchange="cellUpdate('emergency','${x.id}','name',this.value)"></td><td><input value="${esc(x.phone)}" onchange="cellUpdate('emergency','${x.id}','phone',this.value)"></td><td><input value="${esc(x.note)}" onchange="cellUpdate('emergency','${x.id}','note',this.value)"></td><td><button type="button" class="tiny danger" onclick="deleteEntry('emergency','${x.id}')">×</button></td></tr>`).join('')}</tbody></table>`}
+function addEmergency(){let t=activeTrip();t.emergency.push({id:uid(),name:'',phone:'',note:''});persist();renderPanel()}
+function notes(p,t){ensure(t,'notes',{todo:[],flight:[],watch:[]});let n=t.notes;p.innerHTML=heading('注意事項','旅行前的提醒集中管理，完成的事項會自動淡化。')+`<h3>☑️ 代辦事項 <button class="tiny" onclick="addTodo()">＋ 新增</button></h3>${n.todo.map(x=>`<div class="listrow ${x.done?'done':''}"><input class="check" type="checkbox" ${x.done?'checked':''} onchange="toggleEntry('todo','${x.id}',this.checked)"><div><div class="rowtitle">${esc(x.title)}</div>${x.note?`<div class="rowmeta">${esc(x.note)}</div>`:''}</div><button class="tiny" onclick="editTodo('${x.id}')">編輯</button></div>`).join('')||'<div class="empty">目前沒有待辦事項</div>'}<hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><h3>✈️ 航班資訊 <button class="tiny" onclick="addFlight()">＋ 新增航班</button></h3>${n.flight.map(x=>`<div class="reference"><b>${esc(x.title)}</b><div class="meta">${esc(x.detail)}</div>${x.url?`<a href="${esc(x.url)}" target="_blank">查看資訊 ↗</a>`:''}<button class="tiny" onclick="editFlight('${x.id}')">編輯</button> <button type="button" class="tiny danger" onclick="deleteEntry('flight','${x.id}')">刪除</button></div>`).join('')||'<div class="empty">尚未新增航班</div>'}<hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><h3>👀 待看資訊 <button class="tiny" onclick="addWatch()">＋ 新增連結</button></h3>${n.watch.map(x=>`<div class="reference"><b>${esc(x.title)}</b><div class="meta">${esc(x.note)}</div><a href="${esc(x.url)}" target="_blank">${esc(x.url)} ↗</a><button class="tiny" onclick="editWatch('${x.id}')">編輯</button> <button type="button" class="tiny danger" onclick="deleteEntry('watch','${x.id}')">刪除</button></div>`).join('')||'<div class="empty">還沒有待看的資料</div>'}`}
+function addTodo(id){let n=activeTrip().notes,o=n.todo.find(x=>x.id===id)||{};showModal('代辦事項',`<div class="field"><label>事項</label><input id="f_title" value="${esc(o.title||'')}"></div><div class="field"><label>備註</label><textarea id="f_note">${esc(o.note||'')}</textarea></div>`,()=>{let x={id:o.id||uid(),title:$('f_title').value,note:$('f_note').value,done:o.done||false};if(id)Object.assign(o,x);else n.todo.push(x);persist();renderPanel()})}function editTodo(id){addTodo(id)}
+function addFlight(id){let a=activeTrip().notes.flight,o=a.find(x=>x.id===id)||{};showModal('航班資訊',`<div class="field"><label>航班標題</label><input id="f_title" value="${esc(o.title||'')}"></div><div class="field"><label>日期、時間、航班編號等資訊</label><textarea id="f_detail">${esc(o.detail||'')}</textarea></div><div class="field"><label>訂票／航空公司連結</label><input id="f_url" value="${esc(o.url||'')}"></div>`,()=>{let x={id:o.id||uid(),title:$('f_title').value,detail:$('f_detail').value,url:$('f_url').value};if(id)Object.assign(o,x);else a.push(x);persist();renderPanel()})}function editFlight(id){addFlight(id)}
+function addWatch(id){let a=activeTrip().notes.watch,o=a.find(x=>x.id===id)||{};showModal('待看資訊',`<div class="field"><label>標題</label><input id="f_title" value="${esc(o.title||'')}"></div><div class="field"><label>連結</label><input id="f_url" value="${esc(o.url||'')}"></div><div class="field"><label>備註</label><textarea id="f_note">${esc(o.note||'')}</textarea></div>`,()=>{let x={id:o.id||uid(),title:$('f_title').value,url:$('f_url').value,note:$('f_note').value};if(id)Object.assign(o,x);else a.push(x);persist();renderPanel()})}function editWatch(id){addWatch(id)}
+function toggleEntry(kind,id,v,tab){let t=activeTrip(),arr=kind==='shopping'?t.shopping[tab]:kind==='luggage'?t.luggage:kind==='todo'?t.notes.todo:null;let x=arr?.find(x=>x.id===id);if(x)x.done=v;persist();renderPanel()}
+function deleteEntry(kind,id,tab){
+  if(!confirm('確定刪除這筆資料？'))return;
+  let t=activeTrip(),arr=null;
+  if(kind==='shopping')arr=t.shopping[tab||t.shopTab||'buy'];
+  else if(kind==='luggage')arr=t.luggage;
+  else if(kind==='emergency')arr=t.emergency;
+  else if(kind==='refs')arr=t.refs;
+  else if(kind==='flight')arr=t.notes.flight;
+  else if(kind==='watch')arr=t.notes.watch;
+  else if(kind==='todo')arr=t.notes.todo;
+  if(arr){const i=arr.findIndex(x=>String(x.id)===String(id));if(i>=0)arr.splice(i,1);}
+  if(kind==='shopping' && String(activeShopId)===String(id))activeShopId=null;
+  persist();renderPanel();
+}
+
+function cellUpdate(kind,id,key,val){let x=activeTrip()[kind].find(x=>x.id===id);if(x)x[key]=val;persist()}
+function showModal(title,body,save){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modalbg').style.display='flex';modalSave=save}
+function closeModal(){$('modalbg').style.display='none';modalSave=null}
+function saveModal(){if(modalSave)modalSave();closeModal()}
+function newTrip(){showModal('新增旅程',`<div class="formgrid"><div class="field"><label>旅程名稱</label><input id="f_name" placeholder="例如：首爾小旅行"></div><div class="field"><label>封面小圖示（emoji）</label><input id="f_emoji" value="🌷"></div><div class="field full"><label>目的地</label><input id="f_place" placeholder="例如：韓國・首爾"></div><div class="field"><label>開始日期</label><input id="f_start" type="date"></div><div class="field"><label>結束日期</label><input id="f_end" type="date"></div></div>`,()=>{let t={id:uid(),name:$('f_name').value||'未命名旅程',emoji:$('f_emoji').value,place:$('f_place').value,start:$('f_start').value,end:$('f_end').value,days:[],refs:[],shopping:{buy:[],gift:[]},luggage:[],emergency:[],notes:{todo:[],flight:[],watch:[]}};trips.unshift(t);persist();page=0;openTrip(t.id)})}
+function editTrip(){let t=activeTrip();showModal('編輯旅程',`<div class="formgrid"><div class="field"><label>旅程名稱</label><input id="f_name" value="${esc(t.name)}"></div><div class="field"><label>封面小圖示</label><input id="f_emoji" value="${esc(t.emoji||'🌷')}"></div><div class="field full"><label>目的地</label><input id="f_place" value="${esc(t.place||'')}"></div><div class="field"><label>開始日期</label><input id="f_start" type="date" value="${esc(t.start||'')}"></div><div class="field"><label>結束日期</label><input id="f_end" type="date" value="${esc(t.end||'')}"></div></div>`,()=>{t.name=$('f_name').value;t.emoji=$('f_emoji').value;t.place=$('f_place').value;t.start=$('f_start').value;t.end=$('f_end').value;persist();renderWorkspace()})}
+function deleteTrip(){if(confirm('確定刪除整趟旅程？這個動作無法復原。')){trips=trips.filter(x=>x.id!==current);current=null;persist();goHome()}}
+function exportData(){let blob=new Blob([JSON.stringify(trips,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='旅記備份.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let data=JSON.parse(r.result);if(!Array.isArray(data))throw 0;if(confirm('匯入會以檔案內容取代目前所有旅程，確定嗎？')){trips=data;persist();goHome()}}catch{alert('檔案格式不正確')}};r.readAsText(f);e.target.value=''}
+async function googleLogin(){
+  if(currentUser && auth){if(confirm('要登出 Google 帳號嗎？'))await auth.signOut();return;}
+  if(!initFirebase())return;
+  try{const provider=new firebase.auth.GoogleAuthProvider();await auth.signInWithPopup(provider);}
+  catch(err){console.error(err);alert('Google 登入失敗：'+err.message);}
+}
+renderHome();
+</script>
+</body></html>
