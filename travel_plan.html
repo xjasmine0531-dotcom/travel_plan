@@ -22,7 +22,7 @@ table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid v
 </style>
 </head>
 <body>
-<header><div class="logo"><span>✿</span> 旅記 <span>✿</span></div><nav class="topnav"><button class="active" id="navHome" onclick="goHome()">我的旅程</button><button onclick="exportData()">匯出備份</button><button onclick="document.getElementById('importFile').click()">匯入</button><button onclick="googleLogin()">Google 登入／同步</button><span id="syncStatus" class="sync-status"></span></nav></header>
+<header><div class="logo"><span>✿</span> 旅記 <img src="tanuki.png" style="height:28px;width:auto;vertical-align:middle;margin-left:6px"><button class="active" id="navHome" onclick="goHome()">我的旅程</button><button onclick="exportData()">匯出備份</button><button onclick="document.getElementById('importFile').click()">匯入</button><button onclick="googleLogin()">Google 登入／同步</button><span id="syncStatus" class="sync-status"></span></nav></header>
 <main>
 <section id="home">
 <div style="display:flex;gap:8px;align-items:center;margin-bottom:20px"><button id="sortBtn" onclick="toggleTripSort()" style="font-size:13px">排序：旅程日期 ↓</button><button class="primary" onclick="newTrip()">+ 新增旅程</button></div>
