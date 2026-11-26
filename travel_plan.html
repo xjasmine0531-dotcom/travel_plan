@@ -77,6 +77,10 @@ function initFirebase(){
   }
   try{
     firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();firebaseReady=true;
+   auth.getRedirectResult().catch((err) => {
+      console.error(err);
+      alert('跳轉登入失敗：' + err.message);
+    });
     auth.onAuthStateChanged(async user=>{
       currentUser=user;
       const btn=document.querySelector('[onclick="googleLogin()"]');
@@ -377,8 +381,13 @@ async function googleLogin(){
   isLoggingIn = true;
   try{
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    const provider=new firebase.auth.GoogleAuthProvider();
-    await auth.signInWithPopup(provider);
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+    if(isStandalone){
+      await auth.signInWithRedirect(provider);
+    } else {
+      await auth.signInWithPopup(provider);
+    }
   }
   catch(err){
     if(err.code !== 'auth/cancelled-popup-request'){
@@ -391,5 +400,6 @@ async function googleLogin(){
   }
 }
 renderHome();
+initFirebase();
 </script>
 </body></html>
