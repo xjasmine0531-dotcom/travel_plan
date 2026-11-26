@@ -469,7 +469,7 @@ initFirebase();
     }
   });
 
-  // 自動在「相關連結」輸入框旁長出「連結顯示文字」欄位並記憶對應文字
+  // 精準鎖定 placeholder="https://..." 的超連結輸入框，在下方長出「超連結顯示文字」
   const LABEL_KEY = 'travel_url_labels_v1';
   function getLabels(){ try{ return JSON.parse(localStorage.getItem(LABEL_KEY) || '{}'); }catch(e){ return {}; } }
   function saveLabel(url, text){
@@ -482,27 +482,25 @@ initFirebase();
   window.__getUrlLabel = function(url){ return url ? (getLabels()[url.trim()] || '') : ''; };
 
   function injectUrlLabelField(){
-    if(document.getElementById('customUrlLabelWrap')) return;
-    const inputs = Array.from(document.querySelectorAll('input[type="url"], input[type="text"]'));
-    const urlInput = inputs.find(inp => {
-      const ph = (inp.placeholder || '') + (inp.id || '') + (inp.name || '');
-      const prev = inp.previousElementSibling ? inp.previousElementSibling.textContent : '';
-      const parentTxt = inp.parentElement ? inp.parentElement.textContent : '';
-      return /http|url|連結|網址/i.test(ph + prev + parentTxt) && !/名稱|標題|地點|備註|店家|百貨/.test(prev);
-    });
-    if(!urlInput || !urlInput.parentElement) return;
+    const urlInput = document.querySelector('input[placeholder*="https://"]');
+    if(!urlInput || document.getElementById('customUrlLabelWrap')) return;
 
+    const fieldBox = urlInput.closest('.field, .form-group, div');
     const wrap = document.createElement('div');
     wrap.id = 'customUrlLabelWrap';
-    wrap.style.marginTop = '10px';
-    const lbl = document.createElement('label');
-    lbl.textContent = '連結顯示文字（選填，預設為「開啟相關連結 ↗」）';
-    lbl.style.cssText = 'display:block;font-size:13px;color:var(--muted,#7a869a);margin-bottom:6px';
+    wrap.className = fieldBox ? fieldBox.className : '';
+    wrap.style.marginTop = '12px';
+
+    const origLbl = fieldBox ? fieldBox.querySelector('label, .label, div:first-child') : null;
+    const lbl = document.createElement(origLbl && origLbl !== urlInput ? origLbl.tagName.toLowerCase() : 'label');
+    if(origLbl && origLbl !== urlInput) lbl.className = origLbl.className;
+    lbl.textContent = '超連結顯示文字（選填）';
+
     const txtInp = document.createElement('input');
     txtInp.type = 'text';
-    txtInp.placeholder = '例如：Naver Map 路線、官網預約頁...';
+    txtInp.className = urlInput.className;
+    txtInp.placeholder = '預設：開啟相關連結 ↗';
     txtInp.value = window.__getUrlLabel(urlInput.value);
-    txtInp.style.cssText = urlInput.style.cssText || 'width:100%;padding:10px 12px;border-radius:12px;border:1px solid #dce2eb;background:#fff;font-size:14px';
 
     const sync = () => saveLabel(urlInput.value, txtInp.value);
     txtInp.addEventListener('input', sync);
@@ -514,9 +512,10 @@ initFirebase();
 
     wrap.appendChild(lbl);
     wrap.appendChild(txtInp);
-    urlInput.parentElement.insertAdjacentElement('afterend', wrap);
+    (fieldBox || urlInput).insertAdjacentElement('afterend', wrap);
   }
   new MutationObserver(injectUrlLabelField).observe(document.body, {childList: true, subtree: true});
+  injectUrlLabelField();
 
   // 修復 iOS PWA 模式下外部連結點了沒反應的問題
   document.addEventListener('click', function(e){
