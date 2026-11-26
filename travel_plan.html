@@ -380,25 +380,40 @@ function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader
 let isLoggingIn = false;
 async function googleLogin(){
   if(isLoggingIn) return;
-  if(currentUser && auth){if(confirm('要登出 Google 帳號嗎？'))await auth.signOut();return;}
-  if(!initFirebase())return;
+  if(currentUser && auth){
+    if(confirm('目前登入帳號：' + (currentUser.email || '') + '\n要登出嗎？')){
+      await auth.signOut();
+    }
+    return;
+  }
+  if(!initFirebase()) return;
   isLoggingIn = true;
   try{
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
     const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
     if(isStandalone){
-      await auth.signInWithRedirect(provider);
-      return;
+      const email = prompt('請輸入同步用的 Email 信箱：');
+      if(!email){ isLoggingIn = false; return; }
+      const password = prompt('請輸入同步密碼（至少 6 個字元，首次輸入會自動建立）：');
+      if(!password){ isLoggingIn = false; return; }
+      try{
+        await auth.signInWithEmailAndPassword(email.trim(), password);
+      } catch(signInErr){
+        if(signInErr.code === 'auth/user-not-found' || signInErr.code === 'auth/invalid-credential'){
+          await auth.createUserWithEmailAndPassword(email.trim(), password);
+        } else {
+          throw signInErr;
+        }
+      }
     } else {
+      const provider = new firebase.auth.GoogleAuthProvider();
       await auth.signInWithPopup(provider);
     }
   }
   catch(err){
     if(err.code !== 'auth/cancelled-popup-request'){
       console.error(err);
-      alert('Google 登入失敗：'+err.message);
+      alert('登入失敗：' + err.message);
     }
   }
   isLoggingIn = false;
