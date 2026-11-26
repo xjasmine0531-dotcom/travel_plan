@@ -425,7 +425,7 @@ renderHome();
 initFirebase();
 (function(){
   const style = document.createElement('style');
-  style.textContent = `@keyframes xmasFall{0%{transform:translate(0,-20px) rotate(0deg);opacity:0}15%{opacity:0.8}50%{transform:translate(16px,50vh) rotate(180deg)}85%{opacity:0.8}100%{transform:translate(-12px,105vh) rotate(360deg);opacity:0}}.xmas-flake{position:fixed;top:-20px;pointer-events:none;z-index:9999;user-select:none;animation:xmasFall ease-in-out forwards}@keyframes starPop{0%{transform:translate(-50%,-50%) scale(0.85) rotate(0deg);opacity:1}35%{opacity:1;transform:translate(-50%,-95%) scale(1.25) rotate(22deg)}100%{transform:translate(-50%,-155%) scale(0.75) rotate(50deg);opacity:0}}.click-star{position:fixed;pointer-events:none;z-index:10000;user-select:none;width:55px;height:55px;animation:starPop 0.45s cubic-bezier(0.2,0.8,0.2,1) forwards}.lying-pikmin{position:fixed;right:-36px;bottom:4px;width:238px;height:auto;pointer-events:none;z-index:9998;user-select:none}`;
+  style.textContent = `@keyframes xmasFall{0%{transform:translate(0,-20px) rotate(0deg);opacity:0}15%{opacity:0.8}50%{transform:translate(16px,50vh) rotate(180deg)}85%{opacity:0.8}100%{transform:translate(-12px,105vh) rotate(360deg);opacity:0}}.xmas-flake{position:fixed;top:-20px;pointer-events:none;z-index:9999;user-select:none;animation:xmasFall ease-in-out forwards}@keyframes starPop{0%{transform:translate(-50%,-50%) scale(1) rotate(0deg)}45%{transform:translate(-50%,-95%) scale(1.22) rotate(18deg)}100%{transform:translate(-50%,-130%) scale(0.95) rotate(32deg)}}.click-star{position:fixed;pointer-events:none;z-index:10000;user-select:none;width:55px;height:55px;animation:starPop 0.28s ease-out forwards}.lying-pikmin{position:fixed;right:-58px;bottom:4px;width:238px;height:auto;pointer-events:none;z-index:9998;user-select:none}`;
   document.head.appendChild(style);
   const icons = ['❄', '❅', '✦', '✧', '⋆'];
   const colors = ['#b4c4d8', '#d4c391', '#c4d1e2', '#e2d2a4'];
@@ -464,7 +464,7 @@ initFirebase();
       star.style.left = (rect.left + rect.width / 2) + 'px';
       star.style.top = (rect.top + rect.height / 2) + 'px';
       document.body.appendChild(star);
-      setTimeout(() => star.remove(), 500);
+      setTimeout(() => star.remove(), 280);
     }
   });
 
