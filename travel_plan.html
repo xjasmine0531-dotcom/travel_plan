@@ -454,13 +454,16 @@ initFirebase();
   spawnFlurry();
   setInterval(spawnFlurry, 6500);
 
+  // 排除最上方 header / .topnav 的備份與導覽按鈕，其他所有按鈕按下都會隨機閃出莫蘭迪色平面星星
+  const starColors = ['#f0c8d2', '#ebd8a6', '#b8d0e8', '#c2dec9', '#d5cae6'];
   document.addEventListener('pointerdown', function(e){
     const btn = e.target.closest('button');
-    if(btn && btn.textContent.includes('新增旅程')){
+    if(btn && !btn.closest('header') && !btn.closest('.topnav')){
       const rect = btn.getBoundingClientRect();
+      const color = starColors[Math.floor(Math.random() * starColors.length)];
       const star = document.createElement('div');
       star.className = 'click-star';
-      star.innerHTML = '<svg viewBox="0 0 24 24" width="55" height="55"><path fill="#f0c8d2" d="M12 2.2l2.9 6.1 6.7.9-4.9 4.7 1.2 6.7L12 17.4l-5.9 3.2 1.2-6.7-4.9-4.7 6.7-.9z"/></svg>';
+      star.innerHTML = `<svg viewBox="0 0 24 24" width="55" height="55"><path fill="${color}" d="M12 2.2l2.9 6.1 6.7.9-4.9 4.7 1.2 6.7L12 17.4l-5.9 3.2 1.2-6.7-4.9-4.7 6.7-.9z"/></svg>`;
       star.style.left = (rect.left + rect.width / 2) + 'px';
       star.style.top = (rect.top + rect.height / 2) + 'px';
       document.body.appendChild(star);
