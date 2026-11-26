@@ -25,7 +25,7 @@ table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid v
 <header><div class="logo"><span>✿</span> 旅記 <span>✿</span></div><nav class="topnav"><button class="active" id="navHome" onclick="goHome()">我的旅程</button><button onclick="exportData()">匯出備份</button><button onclick="document.getElementById('importFile').click()">匯入</button><button onclick="googleLogin()">Google 登入／同步</button><span id="syncStatus" class="sync-status"></span></nav></header>
 <main>
 <section id="home">
- <div class="hero"><div><div class="eyebrow">MY LITTLE TRAVEL PLANNER</div><h1>我的旅程</h1><div class="sub">把每一段旅途，好好收藏起來。</div></div><button class="primary" onclick="newTrip()">＋ 新增旅程</button></div>
+<div style="display:flex;gap:8px;align-items:center"><button id="sortBtn" onclick="toggleTripSort()" style="font-size:13px">排序：旅程日期 ↓</button><button class="primary" onclick="newTrip()">+ 新增旅程</button></div>
  <div class="cards" id="tripCards"></div><div class="pager" id="pager"></div>
  <div class="footer-note">🌿 尚未登入時資料儲存在目前裝置；登入 Google 並完成 Firebase 設定後即可同步雲端。建議仍定期匯出備份。</div>
 </section>
@@ -111,8 +111,10 @@ function initFirebase(){
 }
 function activeTrip(){return trips.find(t=>t.id===current)}
 function goHome(){activeDayId=null;activeShopId=null;activePlanId=null;$('home').style.display='block';$('workspace').style.display='none';renderHome()}
-function renderHome(){let cards=$('tripCards');cards.innerHTML='';let total=Math.max(1,Math.ceil(trips.length/5));page=Math.min(page,total-1);
-trips.slice(page*5,page*5+5).forEach(t=>{let d=document.createElement('div');d.className='trip-card';d.innerHTML=`<div class="emoji">${esc(t.emoji||'🌷')}</div><h3>${esc(t.name)}</h3><p>${esc(t.place||'還沒決定目的地')}</p><p>${esc(t.start||'日期未設定')}${t.end?' ～ '+esc(t.end):''}</p><div class="mini">打開旅程 ↗</div>`;d.onclick=()=>openTrip(t.id);cards.appendChild(d)});
+let tripSortMode=localStorage.getItem('luluTripSort')||'dateDesc';
+function toggleTripSort(){const order=['dateDesc','dateAsc','added'];tripSortMode=order[(order.indexOf(tripSortMode)+1)%order.length];localStorage.setItem('luluTripSort',tripSortMode);page=0;renderHome();}
+function renderHome(){const sortLabels={dateDesc:'排序：旅程日期 ↓',dateAsc:'排序：旅程日期 ↑',added:'排序：加入順序'};if($('sortBtn'))$('sortBtn').textContent=sortLabels[tripSortMode];const sortedTrips=[...trips].sort((a,b)=>{if(tripSortMode==='added')return 0;const da=a.start||a.startDate||a.date||'';const db=b.start||b.startDate||b.date||'';if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;return tripSortMode==='dateDesc'?db.localeCompare(da):da.localeCompare(db);});let cards=$('tripCards');cards.innerHTML='';let total=Math.max(1,Math.ceil(sortedTrips.length/5));page=Math.min(page,total-1);
+sortedTrips.slice(page*5,page*5+5).forEach(t=>{let d=document.createElement('div');d.className='trip-card';d.innerHTML=`<div class="emoji">${esc(t.emoji||'🌷')}</div><h3>${esc(t.name)}</h3><p>${esc(t.place||'還沒決定目的地')}</p><p>${esc(t.start||'日期未設定')}${t.end?' ～ '+esc(t.end):''}</p><div class="mini">打開旅程 ↗</div>`;d.onclick=()=>openTrip(t.id);cards.appendChild(d)});
 let add=document.createElement('button');add.className='trip-card add-card';add.innerHTML='＋<br>新增一趟旅程';add.onclick=newTrip;cards.appendChild(add);
 $('pager').innerHTML=`<button ${page===0?'disabled':''} onclick="page--;renderHome()">← 上一頁</button><span>${page+1} / ${total}</span><button ${page>=total-1?'disabled':''} onclick="page++;renderHome()">下一頁 →</button>`}
 function openTrip(id){current=id;section='itinerary';activeDayId=null;activeShopId=null;activePlanId=null;$('home').style.display='none';$('workspace').style.display='block';renderWorkspace()}
