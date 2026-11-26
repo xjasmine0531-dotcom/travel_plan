@@ -394,20 +394,22 @@ async function googleLogin(){
     if(isStandalone){
       const email = prompt('請輸入同步用的 Email 信箱：');
       if(!email){ isLoggingIn = false; return; }
-      const password = prompt('請輸入同步密碼（至少 6 個字元，首次輸入會自動建立）：');
+      const password = prompt('請輸入同步密碼（至少 6 個字元）：');
       if(!password){ isLoggingIn = false; return; }
-      try{
-        await auth.signInWithEmailAndPassword(email.trim(), password);
-      } catch(signInErr){
-        if(signInErr.code === 'auth/user-not-found' || signInErr.code === 'auth/invalid-credential'){
-          await auth.createUserWithEmailAndPassword(email.trim(), password);
-        } else {
-          throw signInErr;
-        }
-      }
+      await auth.signInWithEmailAndPassword(email.trim(), password);
     } else {
       const provider = new firebase.auth.GoogleAuthProvider();
-      await auth.signInWithPopup(provider);
+      const result = await auth.signInWithPopup(provider);
+      // 檢查此 Google 帳號是否已設定密碼，若無則引導設定一次，方便手機 App 登入
+      const methods = await auth.fetchSignInMethodsForEmail(result.user.email);
+      if(!methods.includes('password')){
+        const newPwd = prompt('請為手機 App 設定一組同步密碼（至少 6 個字元）：');
+        if(newPwd && newPwd.length >= 6){
+          const cred = firebase.auth.EmailAuthProvider.credential(result.user.email, newPwd);
+          await result.user.linkWithCredential(cred);
+          alert('手機同步密碼綁定成功！現在手機 App 可以直接用此信箱與密碼登入了。');
+        }
+      }
     }
   }
   catch(err){
