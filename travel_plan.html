@@ -25,7 +25,7 @@ table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid v
 <header><div class="logo"><span>✿</span> 旅記 <span>✿</span></div><nav class="topnav"><button class="active" id="navHome" onclick="goHome()">我的旅程</button><button onclick="exportData()">匯出備份</button><button onclick="document.getElementById('importFile').click()">匯入</button><button onclick="googleLogin()">Google 登入／同步</button><span id="syncStatus" class="sync-status"></span></nav></header>
 <main>
 <section id="home">
-<div style="display:flex;gap:8px;align-items:center"><button id="sortBtn" onclick="toggleTripSort()" style="font-size:13px">排序：旅程日期 ↓</button><button class="primary" onclick="newTrip()">+ 新增旅程</button></div>
+<div style="display:flex;gap:8px;align-items:center;margin-bottom:20px"><button id="sortBtn" onclick="toggleTripSort()" style="font-size:13px">排序：旅程日期 ↓</button><button class="primary" onclick="newTrip()">+ 新增旅程</button></div>
  <div class="cards" id="tripCards"></div><div class="pager" id="pager"></div>
  <div class="footer-note">🌿 尚未登入時資料儲存在目前裝置；登入 Google 並完成 Firebase 設定後即可同步雲端。建議仍定期匯出備份。</div>
 </section>
