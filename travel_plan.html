@@ -202,8 +202,7 @@ function planDetail(p,t){
       <div class="detail-row"><div class="detail-label">日期與時間</div>${esc(it.date||'日期未設定')}　${esc(it.startTime||it.time||'時間未設定')}${it.endTime?' ～ '+esc(it.endTime):''}</div>
       <div class="detail-row"><div class="detail-label">地點</div>${esc(it.place||'尚未填寫')}</div>
       <div class="detail-row"><div class="detail-label">備註／其他資訊</div>${esc(it.note||'尚未填寫').replace(/\n/g,'<br>')}</div>
-      ${it.url?`<div class="detail-row"><div class="detail-label">相關連結</div><a href="${esc(it.url)}" target="_blank" rel="noopener">開啟相關連結 ↗</a></div>`:''}
-      ${it.image?`<div class="detail-row"><div class="detail-label">照片</div><img src="${it.image}" alt="行程照片"></div>`:''}
+${it.url?`<div class="detail-row"><div class="detail-label">相關連結</div><a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.urlLabel || (window.__getUrlLabel && window.__getUrlLabel(it.url)) || '開啟相關連結 ↗')}</a></div>`:''}      ${it.image?`<div class="detail-row"><div class="detail-label">照片</div><img src="${it.image}" alt="行程照片"></div>`:''}
       <div class="detail-row"><div class="detail-label">百貨／店家資料</div>${(it.departmentRows||[]).length?(it.departmentRows||[]).map(r=>`<div class="reference"><b>${esc(r.name||'未命名店家')}</b><div class="meta">${esc(r.floor||'')}${r.note?' · '+esc(r.note):''}</div>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">開啟 ↗</a>`:''}</div>`).join(''):'尚未新增百貨／店家資料'}</div>
     </div>`;
 }
@@ -454,7 +453,6 @@ initFirebase();
   spawnFlurry();
   setInterval(spawnFlurry, 6500);
 
-  // 排除最上方 header / .topnav 的備份與導覽按鈕，其他所有按鈕按下都會隨機閃出莫蘭迪色平面星星
   const starColors = ['#f0c8d2', '#ebd8a6', '#b8d0e8', '#c2dec9', '#d5cae6'];
   document.addEventListener('pointerdown', function(e){
     const btn = e.target.closest('button');
@@ -470,6 +468,78 @@ initFirebase();
       setTimeout(() => star.remove(), 280);
     }
   });
+
+  // 自動在「相關連結」輸入框旁長出「連結顯示文字」欄位並記憶對應文字
+  const LABEL_KEY = 'travel_url_labels_v1';
+  function getLabels(){ try{ return JSON.parse(localStorage.getItem(LABEL_KEY) || '{}'); }catch(e){ return {}; } }
+  function saveLabel(url, text){
+    if(!url) return;
+    const map = getLabels();
+    if(text && text.trim()) map[url.trim()] = text.trim();
+    else delete map[url.trim()];
+    localStorage.setItem(LABEL_KEY, JSON.stringify(map));
+  }
+  window.__getUrlLabel = function(url){ return url ? (getLabels()[url.trim()] || '') : ''; };
+
+  function injectUrlLabelField(){
+    if(document.getElementById('customUrlLabelWrap')) return;
+    const inputs = Array.from(document.querySelectorAll('input[type="url"], input[type="text"]'));
+    const urlInput = inputs.find(inp => {
+      const ph = (inp.placeholder || '') + (inp.id || '') + (inp.name || '');
+      const prev = inp.previousElementSibling ? inp.previousElementSibling.textContent : '';
+      const parentTxt = inp.parentElement ? inp.parentElement.textContent : '';
+      return /http|url|連結|網址/i.test(ph + prev + parentTxt) && !/名稱|標題|地點|備註|店家|百貨/.test(prev);
+    });
+    if(!urlInput || !urlInput.parentElement) return;
+
+    const wrap = document.createElement('div');
+    wrap.id = 'customUrlLabelWrap';
+    wrap.style.marginTop = '10px';
+    const lbl = document.createElement('label');
+    lbl.textContent = '連結顯示文字（選填，預設為「開啟相關連結 ↗」）';
+    lbl.style.cssText = 'display:block;font-size:13px;color:var(--muted,#7a869a);margin-bottom:6px';
+    const txtInp = document.createElement('input');
+    txtInp.type = 'text';
+    txtInp.placeholder = '例如：Naver Map 路線、官網預約頁...';
+    txtInp.value = window.__getUrlLabel(urlInput.value);
+    txtInp.style.cssText = urlInput.style.cssText || 'width:100%;padding:10px 12px;border-radius:12px;border:1px solid #dce2eb;background:#fff;font-size:14px';
+
+    const sync = () => saveLabel(urlInput.value, txtInp.value);
+    txtInp.addEventListener('input', sync);
+    urlInput.addEventListener('input', () => {
+      if(!txtInp.value && window.__getUrlLabel(urlInput.value)) txtInp.value = window.__getUrlLabel(urlInput.value);
+      sync();
+    });
+    urlInput.addEventListener('change', sync);
+
+    wrap.appendChild(lbl);
+    wrap.appendChild(txtInp);
+    urlInput.parentElement.insertAdjacentElement('afterend', wrap);
+  }
+  new MutationObserver(injectUrlLabelField).observe(document.body, {childList: true, subtree: true});
+
+  // 修復 iOS PWA 模式下外部連結點了沒反應的問題
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if(!a) return;
+    let href = (a.getAttribute('href') || '').trim();
+    if(!href || href === '#' || href.startsWith('javascript:')) return;
+    if(!/^https?:\/\//i.test(href) && !href.startsWith('mailto:') && !href.startsWith('tel:')){
+      href = 'https://' + href;
+    }
+    if(href.startsWith('http')){
+      e.preventDefault();
+      e.stopPropagation();
+      const ext = document.createElement('a');
+      ext.href = href;
+      ext.target = '_blank';
+      ext.rel = 'noopener noreferrer';
+      ext.style.display = 'none';
+      document.body.appendChild(ext);
+      ext.click();
+      setTimeout(() => ext.remove(), 100);
+    }
+  }, true);
 
   const pikmin = document.createElement('img');
   pikmin.className = 'lying-pikmin';
