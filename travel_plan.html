@@ -70,12 +70,12 @@ table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid v
 <script>
 const sections=[
   ['itinerary','🗓️','行程安排'],
-  ['refs','🔗','行程參考資料'],
   ['split','💰','分帳'],
   ['shopping','🛍️','採購清單'],
-  ['luggage','🧳','行李清單'],
   ['emergency','☎️','緊急號碼'],
-  ['notes','📌','注意事項']
+  ['refs','🔗','行程參考資料'],
+  ['notes','📌','注意事項'],
+   ['luggage','🧳','行李清單']
 ];
 const firebaseConfig = {
   apiKey: "AIzaSyBfeRc07HmDiXduRdOmtdaDyqzCwVn7K0A",
@@ -342,10 +342,15 @@ function splitPage(p,t){
   const totalSpent=t.expenses.reduce((s,e)=>s+(Number(e.amount)||0),0);
 
   p.innerHTML=heading('💰 旅遊分帳','所有共享成員皆可新增款項，系統自動計算「誰給誰多少」。',
-    `<button class="primary" onclick="openExpenseModal()">＋ 新增款項</button><button class="softbtn" onclick="openShareModal()">🤝 共享／邀請連結</button>`)+`
+    `<button class="primary" onclick="openExpenseModal()">＋ 新增款項</button><button class="softbtn" onclick="openShareModal()">🔗共享連結</button>`)+`
     <div class="split-box">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-        <div><b>👥 分帳成員名單</b> <span class="meta">（上限 ${maxM} 人，目前 ${t.members.length} 人）</span></div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <b>👥 分帳成員名單</b>
+          <span class="meta">（上限</span>
+          <input type="number" min="2" max="20" value="${maxM}" style="width:52px;padding:3px 6px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:12px;text-align:center" onchange="updateMaxMembers(this.value)">
+          <span class="meta">人，目前 ${t.members.length} 人）</span>
+        </div>
         <div style="display:flex;gap:6px;align-items:center">
           <span class="meta">幣別：</span>
           <input value="${esc(t.currency||'TWD')}" style="width:68px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:12px" onchange="activeTrip().currency=this.value.trim()||'TWD';persist();renderPanel()">
@@ -354,15 +359,15 @@ function splitPage(p,t){
       <div class="member-chips">
         ${t.members.map((m,i)=>`<span class="member-chip">${esc(m)}${isOwner?` <button type="button" class="danger" onclick="removeSplitMember(${i})" title="移除成員">×</button>`:''}</span>`).join('')||'<span class="meta">尚未新增成員人名</span>'}
       </div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <input id="new_member_name" placeholder="輸入人名（例如：暄絜、旅伴A）" style="flex:1;padding:8px 11px;border:1px solid var(--line);border-radius:11px;background:#fff" onkeydown="if(event.key==='Enter')addSplitMember()">
-        <button type="button" class="softbtn" onclick="addSplitMember()">＋ 新增人名</button>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center">
+        <input id="new_member_name" placeholder="輸入人名（例如：A、B）" style="flex:1 1 160px;min-width:0;height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:11px;background:#fff" onkeydown="if(event.key==='Enter')addSplitMember()">
+        <button type="button" class="softbtn" style="white-space:nowrap;flex-shrink:0" onclick="addSplitMember()">＋ 新增人名</button>
       </div>
     </div>
 
     <div class="split-box" style="background:#f2f6fb">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <b>📊 自動結算（誰給誰多少）</b>
+        <b>自動結算</b>
         <span class="meta">總支出：${esc(t.currency)} ${totalSpent.toLocaleString()}</span>
       </div>
       ${settlements.length?settlements.map(s=>`<div class="settle-row"><span>${esc(s.from)} <span style="color:#91a8c0">→ 給 →</span> ${esc(s.to)}</span><span class="settle-amt">${esc(t.currency)} ${s.amount.toLocaleString()}</span></div>`).join(''):'<div class="meta">目前帳目已平衡，或尚未新增款項。</div>'}
@@ -385,14 +390,14 @@ function splitPage(p,t){
   `;
 }
 
-function addSplitMember(){
+function updateMaxMembers(val){
   const t=activeTrip();
-  ensure(t,'members',[]);
-  const maxM=Number(t.maxMembers)||4;
-  if(t.members.length>=maxM){
-    alert(`已達設定的人數上限（最多 ${maxM} 人）！如需增加，請管理員在「🤝 共享旅程」調高上限。`);
-    return;
-  }
+  const isOwner=!t.ownerUid || !currentUser || t.ownerUid===currentUser.uid;
+  if(!isOwner){alert('只有旅程建立者可以變更人數上限喔！');renderPanel();return;}
+  t.maxMembers=Math.max(2,Math.min(20,Number(val)||4));
+  persist();
+  renderPanel();
+}
   const inp=$('new_member_name');
   const name=(inp?.value||'').trim();
   if(!name) return;
