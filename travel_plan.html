@@ -398,6 +398,14 @@ function updateMaxMembers(val){
   persist();
   renderPanel();
 }
+function addSplitMember(){
+  const t=activeTrip();
+  ensure(t,'members',[]);
+  const maxM=Number(t.maxMembers)||4;
+  if(t.members.length>=maxM){
+    alert(`已達設定的人數上限（最多 ${maxM} 人）！如需增加，請在上方直接調高上限。`);
+    return;
+  }
   const inp=$('new_member_name');
   const name=(inp?.value||'').trim();
   if(!name) return;
