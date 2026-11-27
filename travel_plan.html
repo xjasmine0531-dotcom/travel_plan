@@ -3,25 +3,53 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>旅記｜我的旅行規劃</title>
+<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap');
 :root{--bg:#f2f4f7;--paper:#fffefe;--ink:#566575;--muted:#929eac;--green:#9eafc3;--green2:#e2e9f1;--pink:#e9e5eb;--yellow:#eeeae2;--blue:#dce6f0;--line:#e1e7ee;--shadow:0 8px 24px #71849a18;--forest:#8fa4bb}
 *{box-sizing:border-box}body{margin:0;background-color:#f2f4f7;background-image:radial-gradient(#dce2eb 3.2px,transparent 3.2px),radial-gradient(#dce2eb 3.2px,transparent 3.2px),radial-gradient(ellipse at 8% 8%,#e5ebf2 0,transparent 25%),radial-gradient(ellipse at 94% 12%,#eae6ee 0,transparent 28%);background-size:36px 36px,36px 36px,100% 100%,100% 100%;background-position:0 0,18px 18px,0 0,0 0;color:var(--ink);font-family:'Zen Maru Gothic','Noto Sans TC',sans-serif;min-height:100vh}button,input,textarea,select{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none}a{color:#718ba8;word-break:break-all}
 header{height:68px;background:#fffef9eF;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:10;backdrop-filter:blur(12px)}
-.logo{font-size:21px;font-weight:800;letter-spacing:1px}.logo span{color:#91a8c0}.topnav{display:flex;gap:14px;align-items:center}.topnav button,.softbtn{padding:9px 14px;border-radius:20px;background:#edf1f6}.topnav button.active,.primary{background:var(--green);color:white}.topnav button:hover,.softbtn:hover{filter:brightness(.97)}
+.logo{font-size:21px;font-weight:800;letter-spacing:1px;cursor:pointer;user-select:none;transition:opacity .15s}.logo:active{opacity:.65}.logo span{color:#91a8c0}.topnav{display:flex;gap:14px;align-items:center}.topnav button,.softbtn{padding:9px 14px;border-radius:20px;background:#edf1f6}.topnav button.active,.primary{background:var(--green);color:white}.topnav button:hover,.softbtn:hover{filter:brightness(.97)}
 main{width:min(1120px,100%);margin:34px auto;padding:0 22px 70px}.hero{display:flex;justify-content:space-between;align-items:end;margin-bottom:25px}.eyebrow{color:#91a8c0;font-weight:800;letter-spacing:2px;font-size:11px}.hero h1{font-size:30px;margin:6px 0 4px}.sub{color:var(--muted)}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.trip-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:var(--shadow);min-height:190px;position:relative;cursor:pointer;transition:.2s}.trip-card:hover{transform:translateY(-3px)}.trip-card:before{content:'✿';position:absolute;right:18px;top:12px;color:#c2cfdd;font-size:17px;opacity:.8}.dayhead{background:linear-gradient(90deg,#f2f6ec,#fbf8f0)}.trip-card .emoji{font-size:28px}.trip-card h3{font-size:18px;margin:12px 0 5px}.trip-card p{color:var(--muted);margin:0}.trip-card .mini{position:absolute;right:17px;bottom:16px;font-size:12px;color:#91a4b9}.add-card{border:2px dashed #cbd6e2;background:#f7f9fc;display:grid;place-items:center;color:#8fa4bb;font-weight:700;font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.trip-card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:var(--shadow);min-height:190px;position:relative;cursor:pointer;transition:.2s}.trip-card:hover{transform:translateY(-3px)}.trip-card:before{content:'✿';position:absolute;right:18px;top:12px;color:#c2cfdd;font-size:17px;opacity:.8}.dayhead{background:linear-gradient(90deg,#f2f6ec,#fbf8f0)}.trip-card .emoji{font-size:28px}.trip-card h3{font-size:18px;margin:12px 0 5px}.trip-card p{color:var(--muted);margin:0}.trip-card .mini{position:absolute;right:17px;bottom:16px;font-size:12px;color:#91a4b9}.shared-badge{display:inline-block;font-size:11px;background:#dce6f0;color:#5c738c;padding:3px 9px;border-radius:10px;font-weight:700;margin-top:8px}.add-card{border:2px dashed #cbd6e2;background:#f7f9fc;display:grid;place-items:center;color:#8fa4bb;font-weight:700;font-size:16px}
 .pager{display:flex;justify-content:center;align-items:center;gap:18px;margin:25px}.pager button{background:white;border:1px solid var(--line);border-radius:20px;padding:7px 13px}
-.workspace{display:none}.back{color:#8fa4bb;margin-bottom:16px;padding:7px 0}.trip-head{display:flex;align-items:center;justify-content:space-between;background:var(--green2);padding:22px 25px;border-radius:22px;margin-bottom:20px}.trip-head h1{margin:4px 0;font-size:25px}.trip-head>div:last-child{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.trip-layout{display:grid;grid-template-columns:205px 1fr;gap:18px}.side{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:10px;height:max-content;position:sticky;top:85px}.side button{width:100%;text-align:left;padding:12px;border-radius:12px;margin:2px 0}.side button.active{background:var(--green2);font-weight:800}.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;min-height:480px;min-width:0;box-shadow:var(--shadow)}.panel h2{margin:0 0 6px;font-size:21px}.hint{color:var(--muted);margin:0 0 20px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.primary,.softbtn{padding:9px 14px;border-radius:20px}.primary{background:#9eafc3}.danger{color:#c77c7c}.day{border:1px solid var(--line);border-radius:16px;margin:13px 0;overflow:hidden}.dayhead{display:flex;align-items:center;justify-content:space-between;background:#f0f3f7;padding:12px 15px}.dayhead input{font-weight:800;background:transparent;border:0;font-size:16px;width:180px}.item{padding:14px 15px;border-top:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}.type{font-size:11px;padding:5px 9px;border-radius:14px;background:var(--blue);white-space:nowrap}.item-main{flex:1;min-width:0}.item-title{font-weight:800;font-size:15px}.meta{color:var(--muted);font-size:12px;margin-top:5px}.item-actions{display:flex;gap:6px}.tiny{padding:5px 8px;border-radius:12px;background:#edf1f6;font-size:12px}
+.workspace{display:none}.back{color:#8fa4bb;margin-bottom:16px;padding:7px 0}.trip-head{display:flex;align-items:center;justify-content:space-between;background:var(--green2);padding:22px 25px;border-radius:22px;margin-bottom:20px}.trip-head h1{margin:4px 0;font-size:25px}.trip-head>div:last-child{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.trip-layout{display:grid;grid-template-columns:205px 1fr;gap:18px}.side{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:10px;height:max-content;position:sticky;top:85px}.side button{width:100%;text-align:left;padding:12px;border-radius:12px;margin:2px 0}.side button.active{background:var(--green2);font-weight:800}.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;min-height:480px;min-width:0;box-shadow:var(--shadow)}.panel h2{margin:0 0 6px;font-size:21px}.hint{color:var(--muted);margin:0 0 20px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.primary,.softbtn{padding:9px 14px;border-radius:20px}.primary{background:#9eafc3}.danger{color:#c77c7c}.day{border:1px solid var(--line);border-radius:16px;margin:13px 0;overflow:hidden}.dayhead{display:flex;align-items:center;justify-content:space-between;background:#f0f3f7;padding:12px 15px}.dayhead input{font-weight:800;background:transparent;border:0;font-size:16px;width:180px}.item{padding:14px 15px;border-top:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}.type{font-size:11px;padding:5px 9px;border-radius:14px;background:var(--blue);white-space:nowrap}.item-main{flex:1;min-width:0}.item-title{font-weight:800;font-size:15px}.meta{color:var(--muted);font-size:12px;margin-top:5px}.item-actions{display:flex;gap:6px}.tiny{padding:5px 8px;border-radius:12px;background:#edf1f6;font-size:12px}
 .formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:11px}.field label{font-size:12px;color:#8798aa;font-weight:700}.field input,.field textarea,.field select,.inline-edit{border:1px solid var(--line);border-radius:11px;background:#fff;padding:10px 11px;outline:none;width:100%}.field textarea{min-height:78px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#9eafc3}.full{grid-column:1/-1}.listrow{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:start;border-bottom:1px solid var(--line);padding:12px 3px}.listrow.done{opacity:.7}.listrow.done .rowtitle{text-decoration:line-through;color:#a4aaa0}.rowtitle{font-weight:700}.rowmeta{font-size:12px;color:var(--muted);margin-top:4px}.check{accent-color:#9eafc3;width:17px;height:17px;margin-top:3px}.empty{padding:30px;text-align:center;color:#9ba8b7;background:#fafbf7;border-radius:15px}
 table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid var(--line);padding:9px;text-align:left;vertical-align:top}th{background:#edf2f7;color:#7f91a5}td input{border:0;background:transparent;width:100%;min-width:70px;outline:none}.editable{border:1px solid var(--line);padding:12px;border-radius:12px;min-height:130px;outline:none;background:#fff;line-height:1.7}.reference{padding:12px;border:1px solid var(--line);border-radius:12px;margin:9px 0}.reference input{border:0;border-bottom:1px solid var(--line);padding:7px;width:40%;background:transparent}.reference a{margin-left:8px}
-.modalbg{display:none;position:fixed;inset:0;background:#34403355;z-index:30;align-items:center;justify-content:center;padding:16px}.modal{background:var(--paper);border-radius:20px;padding:23px;width:min(620px,100%);max-height:90vh;overflow:auto;box-shadow:0 15px 50px #34403333}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modalhead h3{margin:0}.close{font-size:23px}.footer-note{font-size:12px;color:#9ca79a;text-align:center;margin-top:35px}.sync-status{font-size:11px;color:#91a58a;margin-left:5px}.department-wrap{padding:12px 15px 16px;border-top:1px dashed var(--line);background:#fffefa}.day-card{border:1px solid var(--line);border-radius:16px;padding:15px 17px;margin:12px 0;background:#fff;cursor:pointer;transition:.18s}.day-card:hover{border-color:#b8c7d8;transform:translateY(-2px)}.day-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.day-card-title{font-size:17px;font-weight:800}.day-summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.day-summary span{font-size:12px;color:#74869b;background:#edf2f7;padding:5px 9px;border-radius:12px}.subpage-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}.subpage-head h2{margin:0}.photo-preview{max-width:100%;max-height:220px;object-fit:contain;border-radius:12px;border:1px solid var(--line);margin-top:8px}.shop-detail{border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;background:#fff}.department-title{font-weight:800;color:#8298b1;margin:2px 0 8px}.department-wrap table{min-width:650px}.department-wrap td input{min-width:95px}.time-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.plan-card{border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0;background:#fff;cursor:pointer;transition:.18s}.plan-card:hover{border-color:#b8c7d8;transform:translateY(-1px)}.plan-card-head{display:flex;align-items:flex-start;gap:12px}.plan-detail{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff;margin-top:12px}.detail-row{padding:10px 0;border-bottom:1px solid var(--line)}.detail-row:last-child{border-bottom:0}.detail-label{font-size:11px;color:var(--muted);font-weight:800;margin-bottom:4px}.day-swipe-hint{font-size:12px;color:var(--muted);text-align:center;margin:8px 0 14px}.sort-actions{display:flex;gap:5px;flex-wrap:wrap}.plan-detail img{max-width:100%;max-height:260px;object-fit:contain;border-radius:12px;margin-top:8px}.day-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0}.day-nav button{background:#edf1f6;border-radius:18px;padding:9px 14px;white-space:nowrap}.day-tabs{display:flex;gap:9px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:7px 2px 12px;margin:2px 0 8px;scrollbar-width:none}.day-tabs::-webkit-scrollbar{display:none}.day-tab{flex:0 0 auto;min-width:104px;padding:11px 16px;border:1px solid var(--line);border-radius:16px;background:#f7f9fc;color:#8192a5;text-align:center;font-weight:800;scroll-snap-align:center;transition:.18s}.day-tab.active{background:var(--green);border-color:var(--green);color:white;box-shadow:0 5px 14px #71849a26}.day-tab small{display:block;font-size:10px;font-weight:600;opacity:.8;margin-top:2px}.day-content{touch-action:pan-y}.plan-card .item-main{min-width:0}@media(max-width:560px){.plan-card{padding:12px}.day-nav button{font-size:12px}}@media(max-width:560px){.time-pair{grid-template-columns:1fr}}
+.modalbg{display:none;position:fixed;inset:0;background:#34403355;z-index:30;align-items:center;justify-content:center;padding:16px}.modal{background:var(--paper);border-radius:20px;padding:23px;width:min(620px,100%);max-height:90vh;overflow:auto;box-shadow:0 15px 50px #34403333}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modalhead h3{margin:0}.close{font-size:23px}.footer-note{font-size:12px;color:#9ca79a;text-align:center;margin-top:35px}.sync-status{font-size:11px;color:#91a58a;margin-left:5px}.department-wrap{padding:12px 15px 16px;border-top:1px dashed var(--line);background:#fffefa}.day-card{border:1px solid var(--line);border-radius:16px;padding:15px 17px;margin:12px 0;background:#fff;cursor:pointer;transition:.18s}.day-card:hover{border-color:#b8c7d8;transform:translateY(-2px)}.day-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.day-card-title{font-size:17px;font-weight:800}.day-summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.day-summary span{font-size:12px;color:#74869b;background:#edf2f7;padding:5px 9px;border-radius:12px}.subpage-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}.subpage-head h2{margin:0}.photo-preview{max-width:100%;max-height:220px;object-fit:contain;border-radius:12px;border:1px solid var(--line);margin-top:8px}.shop-detail{border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0;background:#fff;cursor:pointer;transition:.18s}.shop-detail:hover{border-color:#b8c7d8;transform:translateY(-1px)}.department-title{font-weight:800;color:#8298b1;margin:2px 0 8px}.department-wrap table{min-width:650px}.department-wrap td input{min-width:95px}.time-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}.plan-card{border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0;background:#fff;cursor:pointer;transition:.18s}.plan-card:hover{border-color:#b8c7d8;transform:translateY(-1px)}.plan-card-head{display:flex;align-items:flex-start;gap:12px}.plan-detail{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff;margin-top:12px}.detail-row{padding:10px 0;border-bottom:1px solid var(--line)}.detail-row:last-child{border-bottom:0}.detail-label{font-size:11px;color:var(--muted);font-weight:800;margin-bottom:4px}.day-swipe-hint{font-size:12px;color:var(--muted);text-align:center;margin:8px 0 14px}.sort-actions{display:flex;gap:5px;flex-wrap:wrap}.plan-detail img{max-width:100%;max-height:260px;object-fit:contain;border-radius:12px;margin-top:8px}.day-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0}.day-nav button{background:#edf1f6;border-radius:18px;padding:9px 14px;white-space:nowrap}.day-tabs{display:flex;gap:9px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:7px 2px 12px;margin:2px 0 8px;scrollbar-width:none}.day-tabs::-webkit-scrollbar{display:none}.day-tab{flex:0 0 auto;min-width:104px;padding:11px 16px;border:1px solid var(--line);border-radius:16px;background:#f7f9fc;color:#8192a5;text-align:center;font-weight:800;scroll-snap-align:center;transition:.18s}.day-tab.active{background:var(--green);border-color:var(--green);color:white;box-shadow:0 5px 14px #71849a26}.day-tab small{display:block;font-size:10px;font-weight:600;opacity:.8;margin-top:2px}.day-content{touch-action:pan-y}.plan-card .item-main{min-width:0}
+/* 多圖輪播 */
+.carousel-wrap{position:relative;margin-top:8px;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#f8fafc}
+.carousel-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.carousel-track::-webkit-scrollbar{display:none}
+.carousel-slide{flex:0 0 100%;width:100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;background:#f8fafc}
+.carousel-slide img{width:100%;max-height:290px;object-fit:contain;display:block;margin:0;border-radius:0}
+.carousel-dots{display:flex;justify-content:center;align-items:center;gap:6px;padding:8px 0;background:#fff}
+.carousel-dot{width:7px;height:7px;border-radius:50%;background:#cfd8e3;transition:.2s}
+.carousel-dot.active{background:#8fa4bb;width:16px;border-radius:99px}
+.photo-grid-edit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px}
+.photo-thumb{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;aspect-ratio:1/1;background:#f7f9fc}
+.photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-thumb button{position:absolute;top:5px;right:5px;background:#344033bb;color:#fff;width:22px;height:22px;border-radius:50%;font-size:12px;display:grid;place-items:center}
+/* 分帳與計算機 */
+.split-box{background:#f7f9fc;border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0}
+.member-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.member-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:99px;font-size:13px;font-weight:700}
+.settle-row{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px 14px;margin:7px 0;font-weight:700}
+.settle-amt{color:#6f88a3;font-size:15px;font-weight:800}
+.calc-pad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:#f0f3f7;padding:10px;border-radius:14px;margin-top:8px}
+.calc-pad button{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 0;font-weight:700;font-size:14px}
+.calc-pad button.op{background:#e2e9f1;color:#5c738c}
+.calc-pad button.eq{background:var(--green);color:#fff}
+.chk-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:13px;user-select:none}
+.chk-pill input{accent-color:#9eafc3;width:15px;height:15px;margin:0}
+@media(max-width:560px){.plan-card{padding:12px}.day-nav button{font-size:12px}.time-pair{grid-template-columns:1fr}}
 @media(max-width:760px){header{padding:10px 15px;height:auto;min-height:68px;align-items:flex-start;gap:12px;flex-wrap:wrap}.topnav{gap:10px;flex-wrap:wrap}.topnav button{padding:8px;font-size:12px}.cards{grid-template-columns:1fr 1fr}.trip-layout{grid-template-columns:1fr}.side{position:static;display:flex;overflow:auto;gap:4px}.side button{white-space:nowrap;width:auto}.trip-head{padding:16px}.formgrid{grid-template-columns:1fr}.hero h1{font-size:24px}}
 @media(max-width:470px){.cards{grid-template-columns:1fr}.logo{font-size:18px}.topnav{width:100%;gap:9px}.topnav button{font-size:11px;padding:8px 10px}.panel{padding:15px}.item{padding:12px 9px}.trip-head{align-items:flex-start;gap:14px;flex-direction:column}.trip-head>div:last-child{gap:14px}.trip-head h1{font-size:20px}.day-nav{gap:6px}.day-nav button{padding:8px 10px}.day-tabs{margin-left:-3px;margin-right:-3px}.day-tab{min-width:92px;padding:10px 13px}.day-swipe-hint{font-size:11px}}
 </style>
 </head>
 <body>
-<header><div class="logo"><span><img src="1tanuki.png" style="height:28px;width:auto;vertical-align:middle;margin-right:6px"></span> 旅記 <img src="2tanuki.png" style="height:28px;width:auto;vertical-align:middle;margin-left:6px"></div><div class="topnav"><button class="active" id="navHome" onclick="goHome()">我的旅程</button><button onclick="exportData()">匯出備份</button><button onclick="document.getElementById('importFile').click()">匯入</button><button onclick="googleLogin()">Google 登入／同步</button><span id="syncStatus" class="sync-status"></span></div></header>
+<header><div class="logo" onclick="goHome()" title="回到我的旅程"><span><img src="1tanuki.png" style="height:28px;width:auto;vertical-align:middle;margin-right:6px"></span> 旅記 <img src="2tanuki.png" style="height:28px;width:auto;vertical-align:middle;margin-left:6px"></div><div class="topnav"><button class="active" id="navHome" onclick="goHome()">我的旅程</button><button onclick="exportData()">匯出備份</button><button onclick="document.getElementById('importFile').click()">匯入</button><button onclick="googleLogin()">Google 登入／同步</button><span id="syncStatus" class="sync-status"></span></div></header>
 <main>
 <section id="home">
 <div style="display:flex;gap:8px;align-items:center;margin-bottom:20px"><button id="sortBtn" onclick="toggleTripSort()" style="font-size:13px">排序：旅程日期 ↓</button><button class="primary" onclick="newTrip()">+ 新增旅程</button></div>
@@ -30,7 +58,7 @@ table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid v
 </section>
 <section id="workspace" class="workspace">
  <button class="back" onclick="goHome()">← 回到我的旅程</button>
- <div class="trip-head"><div><div class="eyebrow">YOUR TRAVEL NOTEBOOK</div><h1 id="tripTitle">旅程名稱</h1><div class="sub" id="tripDates"></div></div><div><button class="softbtn" onclick="editTrip()">✎ 編輯旅程</button><button class="softbtn danger" onclick="deleteTrip()">刪除</button></div></div>
+ <div class="trip-head"><div><div class="eyebrow">YOUR TRAVEL NOTEBOOK</div><h1 id="tripTitle">旅程名稱</h1><div class="sub" id="tripDates"></div></div><div><button class="softbtn" onclick="openShareModal()">🤝 共享旅程</button><button class="softbtn" onclick="editTrip()">✎ 編輯旅程</button><button class="softbtn danger" onclick="deleteTrip()">刪除</button></div></div>
  <div class="trip-layout"><aside class="side" id="sideNav"></aside><div class="panel" id="panel"></div></div>
 </section>
 </main>
@@ -40,8 +68,15 @@ table{border-collapse:collapse;width:100%;margin:12px 0}th,td{border:1px solid v
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-const sections=[['itinerary','🗓️','行程安排'],['refs','🔗','行程參考資料'],['shopping','🛍️','採購清單'],['luggage','🧳','行李清單'],['emergency','☎️','緊急號碼'],['notes','📌','注意事項']];
-// Firebase Console > Project settings > Your apps：將下方設定換成自己的 Web App 設定
+const sections=[
+  ['itinerary','🗓️','行程安排'],
+  ['refs','🔗','行程參考資料'],
+  ['split','💰','分帳'],
+  ['shopping','🛍️','採購清單'],
+  ['luggage','🧳','行李清單'],
+  ['emergency','☎️','緊急號碼'],
+  ['notes','📌','注意事項']
+];
 const firebaseConfig = {
   apiKey: "AIzaSyBfeRc07HmDiXduRdOmtdaDyqzCwVn7K0A",
   authDomain: "travel-14af6.web.app",
@@ -52,38 +87,126 @@ const firebaseConfig = {
   measurementId: "G-Z4EV9K94NX"
 };
 let firebaseReady=false, auth=null, db=null, currentUser=null, syncTimer=null;
-let trips=JSON.parse(localStorage.getItem('luluTrips')||'[]'),current=null,section='itinerary',page=0,modalSave=null,activeDayId=null,activeShopId=null,activePlanId=null;
+let sharedUnsubscribers={}, sharedWriteTimers={}, pendingInviteId=new URLSearchParams(location.search).get('share');
+let trips=JSON.parse(localStorage.getItem('luluTrips')||'[]'),current=null,section='itinerary',page=0,modalSave=null,activeDayId=null,activeShopId=null,shopMode='view',activePlanId=null;
 const $=id=>document.getElementById(id);
 const uid=()=>Math.random().toString(36).slice(2,10);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function persist(){
+
+function persist(changedTrip=null){
   localStorage.setItem('luluTrips',JSON.stringify(trips));
+  const target = changedTrip || activeTrip();
+  if(target && target.shared && currentUser && db){
+    syncSharedTrip(target);
+  }
   if(currentUser && db){
     clearTimeout(syncTimer);
     syncTimer=setTimeout(async()=>{
       try{
-        await db.collection('users').doc(currentUser.uid).set({trips:trips,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+        const personalTrips=trips.filter(x=>!x.shared);
+        const sharedIds=trips.filter(x=>x.shared).map(x=>x.id);
+        await db.collection('users').doc(currentUser.uid).set({
+          trips:personalTrips,
+          sharedTripIds:sharedIds,
+          updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+        },{merge:true});
         const s=$('syncStatus'); if(s)s.textContent='☁ 已同步';
       }catch(err){console.error(err);const s=$('syncStatus');if(s)s.textContent='同步失敗';}
-    },700);
+    },600);
   }
 }
+
+function syncSharedTrip(t){
+  if(!t || !t.shared || !db || !currentUser) return;
+  clearTimeout(sharedWriteTimers[t.id]);
+  sharedWriteTimers[t.id]=setTimeout(async()=>{
+    try{
+      const payload=JSON.parse(JSON.stringify(t));
+      payload.updatedAt=firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('sharedTrips').doc(t.id).set(payload,{merge:true});
+      const s=$('syncStatus'); if(s)s.textContent='☁ 共享已同步';
+    }catch(err){
+      console.error(err);
+      const s=$('syncStatus'); if(s)s.textContent='共享同步失敗';
+    }
+  },450);
+}
+
+function listenSharedTrip(tripId){
+  if(!db || sharedUnsubscribers[tripId]) return;
+  sharedUnsubscribers[tripId]=db.collection('sharedTrips').doc(tripId).onSnapshot(doc=>{
+    if(!doc.exists) return;
+    const data=doc.data();
+    data.id=doc.id;
+    data.shared=true;
+    const idx=trips.findIndex(x=>x.id===doc.id);
+    if(idx>=0) trips[idx]=data;
+    else trips.unshift(data);
+    localStorage.setItem('luluTrips',JSON.stringify(trips));
+    if(current===doc.id) renderWorkspace();
+    else renderHome();
+  },err=>console.error('監聽共享旅程錯誤',err));
+}
+
+async function handlePendingInvite(){
+  if(!pendingInviteId || !currentUser || !db) return;
+  const shareId=pendingInviteId;
+  pendingInviteId=null;
+  history.replaceState({},'',location.pathname);
+  try{
+    const ref=db.collection('sharedTrips').doc(shareId);
+    const snap=await ref.get();
+    if(!snap.exists){
+      alert('找不到這個共享旅程連結，可能已被建立者刪除。');
+      return;
+    }
+    const data=snap.data();
+    data.id=snap.id;
+    data.shared=true;
+    const joinedUids=Array.isArray(data.joinedUids)?data.joinedUids:[];
+    const maxMembers=Number(data.maxMembers)||4;
+    if(!joinedUids.includes(currentUser.uid)){
+      if(joinedUids.length>=maxMembers){
+        alert(`此旅程的共享人數已達上限（最多 ${maxMembers} 人），無法再加入。`);
+        return;
+      }
+      const myName=prompt(`受邀加入「${data.name||'共享旅程'}」！\n請輸入你在分帳與旅程中的顯示名稱：`,currentUser.displayName||currentUser.email.split('@')[0]);
+      if(!myName) return;
+      joinedUids.push(currentUser.uid);
+      data.joinedUids=joinedUids;
+      data.memberProfiles=data.memberProfiles||{};
+      data.memberProfiles[currentUser.uid]=myName.trim();
+      data.members=Array.isArray(data.members)?data.members:[];
+      if(!data.members.includes(myName.trim())) data.members.push(myName.trim());
+      await ref.set({
+        joinedUids:data.joinedUids,
+        memberProfiles:data.memberProfiles,
+        members:data.members
+      },{merge:true});
+    }
+    const idx=trips.findIndex(x=>x.id===data.id);
+    if(idx>=0) trips[idx]=data; else trips.unshift(data);
+    persist(data);
+    listenSharedTrip(data.id);
+    openTrip(data.id);
+    alert(`已成功加入共享旅程「${data.name}」！`);
+  }catch(err){
+    console.error(err);
+    alert('加入共享旅程失敗：'+err.message);
+  }
+}
+
 function initFirebase(){
   if(firebaseReady)return true;
   if(!window.firebase || firebaseConfig.apiKey==="YOUR_API_KEY" || firebaseConfig.projectId==="YOUR_PROJECT_ID"){
-    alert('請先在 HTML 的 firebaseConfig 填入 Firebase 專案設定，並啟用 Google 登入與 Cloud Firestore。');
+    alert('請先在 HTML 的 firebaseConfig 填入 Firebase 專案設定。');
     return false;
   }
   try{
     firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();firebaseReady=true;
-   auth.getRedirectResult().then((result) => {
-      if (result && result.user) {
-        currentUser = result.user;
-      }
-    }).catch((err) => {
-      console.error(err);
-      alert('跳轉登入失敗：' + err.message);
-    });
+    auth.getRedirectResult().then(result=>{
+      if(result && result.user) currentUser=result.user;
+    }).catch(err=>console.error(err));
     auth.onAuthStateChanged(async user=>{
       currentUser=user;
       const btn=document.querySelector('[onclick="googleLogin()"]');
@@ -92,46 +215,308 @@ function initFirebase(){
       if(user){
         try{
           const snap=await db.collection('users').doc(user.uid).get();
-          if(snap.exists && Array.isArray(snap.data().trips)){
-            const cloudTrips=snap.data().trips;
-            if(!trips.length){trips=cloudTrips;localStorage.setItem('luluTrips',JSON.stringify(trips));}
-            else if(confirm('雲端已有旅程資料。要以雲端資料取代目前這台裝置的資料嗎？按「取消」則保留本機資料並上傳至雲端。')){
-              trips=cloudTrips;localStorage.setItem('luluTrips',JSON.stringify(trips));
+          let sharedIds=[];
+          if(snap.exists){
+            const d=snap.data();
+            sharedIds=Array.isArray(d.sharedTripIds)?d.sharedTripIds:[];
+            if(Array.isArray(d.trips)){
+              const cloudTrips=d.trips;
+              const localPersonal=trips.filter(x=>!x.shared);
+              const localShared=trips.filter(x=>x.shared);
+              if(!localPersonal.length){
+                trips=[...cloudTrips,...localShared];
+                localStorage.setItem('luluTrips',JSON.stringify(trips));
+              }else if(cloudTrips.length && confirm('雲端已有旅程資料。要以雲端資料取代目前這台裝置的私人旅程嗎？按「取消」則保留本機資料並上傳至雲端。')){
+                trips=[...cloudTrips,...localShared];
+                localStorage.setItem('luluTrips',JSON.stringify(trips));
+              }
             }
           }
-          await db.collection('users').doc(user.uid).set({trips:trips,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});
+          trips.filter(x=>x.shared).forEach(x=>{if(!sharedIds.includes(x.id))sharedIds.push(x.id);});
+          sharedIds.forEach(id=>listenSharedTrip(id));
+          await db.collection('users').doc(user.uid).set({
+            trips:trips.filter(x=>!x.shared),
+            sharedTripIds:sharedIds,
+            updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+          },{merge:true});
           const st=$('syncStatus');if(st)st.textContent='☁ 已同步';
           renderHome();if(current)renderWorkspace();
+          await handlePendingInvite();
         }catch(err){console.error(err);alert('讀取雲端資料失敗：'+err.message);}
+      }else if(pendingInviteId){
+        alert('請先點右上角「Google 登入／同步」登入帳號，即可自動加入朋友分享的旅程！');
       }
     });
     return true;
   }catch(err){console.error(err);alert('Firebase 初始化失敗：'+err.message);return false;}
 }
+
 function activeTrip(){return trips.find(t=>t.id===current)}
-function goHome(){activeDayId=null;activeShopId=null;activePlanId=null;$('home').style.display='block';$('workspace').style.display='none';renderHome()}
+function goHome(){activeDayId=null;activeShopId=null;shopMode='view';activePlanId=null;$('home').style.display='block';$('workspace').style.display='none';renderHome()}
 let tripSortMode=localStorage.getItem('luluTripSort')||'dateDesc';
 function toggleTripSort(){const order=['dateDesc','dateAsc','added'];tripSortMode=order[(order.indexOf(tripSortMode)+1)%order.length];localStorage.setItem('luluTripSort',tripSortMode);page=0;renderHome();}
 function renderHome(){const sortLabels={dateDesc:'排序：旅程日期 ↓',dateAsc:'排序：旅程日期 ↑',added:'排序：加入順序'};if($('sortBtn'))$('sortBtn').textContent=sortLabels[tripSortMode];const sortedTrips=[...trips].sort((a,b)=>{if(tripSortMode==='added')return 0;const da=a.start||a.startDate||a.date||'';const db=b.start||b.startDate||b.date||'';if(!da&&!db)return 0;if(!da)return 1;if(!db)return -1;return tripSortMode==='dateDesc'?db.localeCompare(da):da.localeCompare(db);});let cards=$('tripCards');cards.innerHTML='';let total=Math.max(1,Math.ceil(sortedTrips.length/5));page=Math.min(page,total-1);
-sortedTrips.slice(page*5,page*5+5).forEach(t=>{let d=document.createElement('div');d.className='trip-card';d.innerHTML=`<div class="emoji">${esc(t.emoji||'🌷')}</div><h3>${esc(t.name)}</h3><p>${esc(t.place||'還沒決定目的地')}</p><p>${esc(t.start||'日期未設定')}${t.end?' ～ '+esc(t.end):''}</p><div class="mini">打開旅程 ↗</div>`;d.onclick=()=>openTrip(t.id);cards.appendChild(d)});
+sortedTrips.slice(page*5,page*5+5).forEach(t=>{let d=document.createElement('div');d.className='trip-card';d.innerHTML=`<div class="emoji">${esc(t.emoji||'🌷')}</div><h3>${esc(t.name)}</h3><p>${esc(t.place||'還沒決定目的地')}</p><p>${esc(t.start||'日期未設定')}${t.end?' ～ '+esc(t.end):''}</p>${t.shared?`<span class="shared-badge">🤝 共享中 (${(t.joinedUids||[]).length}/${t.maxMembers||4}人)</span>`:''}<div class="mini">打開旅程 ↗</div>`;d.onclick=()=>openTrip(t.id);cards.appendChild(d)});
 let add=document.createElement('button');add.className='trip-card add-card';add.innerHTML='＋<br>新增一趟旅程';add.onclick=newTrip;cards.appendChild(add);
 $('pager').innerHTML=`<button ${page===0?'disabled':''} onclick="page--;renderHome()">← 上一頁</button><span>${page+1} / ${total}</span><button ${page>=total-1?'disabled':''} onclick="page++;renderHome()">下一頁 →</button>`}
-function openTrip(id){current=id;section='itinerary';activeDayId=null;activeShopId=null;activePlanId=null;$('home').style.display='none';$('workspace').style.display='block';renderWorkspace()}
-function renderWorkspace(){let t=activeTrip();if(!t)return goHome();$('tripTitle').textContent=t.name;$('tripDates').textContent=[t.place,t.start,t.end].filter(Boolean).join(' · ');$('sideNav').innerHTML=sections.map(([id,ic,n])=>`<button class="${section===id?'active':''}" onclick="section='${id}';activeDayId=null;activeShopId=null;renderWorkspace()">${ic} ${n}</button>`).join('');renderPanel()}
+function openTrip(id){current=id;section='itinerary';activeDayId=null;activeShopId=null;shopMode='view';activePlanId=null;$('home').style.display='none';$('workspace').style.display='block';renderWorkspace()}
+function renderWorkspace(){let t=activeTrip();if(!t)return goHome();$('tripTitle').textContent=t.name;$('tripDates').textContent=[t.place,t.start,t.end,t.shared?`🤝 共享 (${(t.joinedUids||[]).length}/${t.maxMembers||4}人)`:''].filter(Boolean).join(' · ');$('sideNav').innerHTML=sections.map(([id,ic,n])=>`<button class="${section===id?'active':''}" onclick="section='${id}';activeDayId=null;activeShopId=null;shopMode='view';activePlanId=null;renderWorkspace()">${ic} ${n}</button>`).join('');renderPanel()}
 function ensure(t,key,def){if(!t[key])t[key]=def}
 function renderPanel(){
   let t=activeTrip(),p=$('panel');
   if(section==='itinerary' && activeDayId && activePlanId)return planDetail(p,t);
   if(section==='itinerary' && activeDayId)return dayDetail(p,t);
-  if(section==='shopping' && activeShopId)return shopDetail(p,t);
+  if(section==='shopping' && activeShopId)return shopMode==='edit'?shopEdit(p,t):shopView(p,t);
   if(section==='itinerary')return itinerary(p,t);
   if(section==='refs')return refs(p,t);
+  if(section==='split')return splitPage(p,t);
   if(section==='shopping')return shopping(p,t);
   if(section==='luggage')return luggage(p,t);
   if(section==='emergency')return emergency(p,t);
   if(section==='notes')return notes(p,t);
 }
 function heading(title,desc,actions=''){return `<h2>${title}</h2><p class="hint">${desc}</p><div class="toolbar">${actions}</div>`}
+
+/* 共享旅程管理彈窗 */
+function openShareModal(){
+  if(!currentUser){
+    alert('請先點右上角「Google 登入／同步」登入帳號，才能開啟多人即時共享旅程功能！');
+    return;
+  }
+  const t=activeTrip();
+  ensure(t,'members',[]);
+  ensure(t,'joinedUids',[currentUser.uid]);
+  if(!t.ownerUid) t.ownerUid=currentUser.uid;
+  const isOwner=t.ownerUid===currentUser.uid;
+  const maxM=Number(t.maxMembers)||4;
+  const shareUrl=`${location.origin}${location.pathname}?share=${t.id}`;
+  showModal('🤝 多人即時共享旅程',`
+    <div class="split-box">
+      <div style="font-weight:800;margin-bottom:6px">共享狀態：${t.shared?'✅ 已開啟即時共享':'⚪ 尚未開啟（僅自己可見）'}</div>
+      <div class="meta">目前已加入：${t.joinedUids.length} / ${maxM} 人</div>
+      ${isOwner?`
+      <div class="field" style="margin-top:12px">
+        <label>管理員設定：最多允許幾人一起共享（含你自己）</label>
+        <input id="f_max_members" type="number" min="2" max="20" value="${maxM}">
+      </div>`:`<div class="meta" style="margin-top:8px">※ 共享人數上限由建立者管理（上限 ${maxM} 人）</div>`}
+      <div class="field" style="margin-top:10px">
+        <label>專屬邀請連結（傳給旅伴點開登入即可加入）</label>
+        <input id="f_share_url" readonly value="${esc(shareUrl)}" onclick="this.select()">
+      </div>
+      <div class="toolbar" style="margin-bottom:0">
+        <button type="button" class="primary" onclick="enableAndCopyShare()">📋 開啟共享並複製連結</button>
+      </div>
+    </div>
+    <div class="meta">開啟共享後，你和旅伴在這裡修改行程、採購清單與分帳都會即時同步！</div>
+  `,()=>{
+    if(isOwner && $('f_max_members')){
+      t.maxMembers=Math.max(2,Math.min(20,Number($('f_max_members').value)||4));
+    }
+    t.shared=true;
+    listenSharedTrip(t.id);
+    persist(t);
+    renderWorkspace();
+  });
+}
+function enableAndCopyShare(){
+  const t=activeTrip();
+  if($('f_max_members')) t.maxMembers=Math.max(2,Math.min(20,Number($('f_max_members').value)||4));
+  t.shared=true;
+  if(!t.ownerUid && currentUser) t.ownerUid=currentUser.uid;
+  if(!Array.isArray(t.joinedUids)) t.joinedUids=currentUser?[currentUser.uid]:[];
+  listenSharedTrip(t.id);
+  persist(t);
+  const url=$('f_share_url')?.value || `${location.origin}${location.pathname}?share=${t.id}`;
+  navigator.clipboard?.writeText(url).then(()=>alert('已開啟即時共享，並複製邀請連結！快傳給旅伴吧～')).catch(()=>alert('已開啟共享！請複製上方連結傳給旅伴：'+url));
+  renderWorkspace();
+}
+
+/* 💰 分帳頁面 */
+function splitPage(p,t){
+  ensure(t,'members',[]);
+  ensure(t,'expenses',[]);
+  ensure(t,'currency','TWD');
+  const isOwner=!t.ownerUid || !currentUser || t.ownerUid===currentUser.uid;
+  const maxM=Number(t.maxMembers)||4;
+  const settlements=calcSettlements(t.members,t.expenses);
+  const totalSpent=t.expenses.reduce((s,e)=>s+(Number(e.amount)||0),0);
+
+  p.innerHTML=heading('💰 旅遊分帳','所有共享成員皆可新增款項，系統自動計算「誰給誰多少」。',
+    `<button class="primary" onclick="openExpenseModal()">＋ 新增款項</button><button class="softbtn" onclick="openShareModal()">🤝 共享／邀請連結</button>`)+`
+    <div class="split-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div><b>👥 分帳成員名單</b> <span class="meta">（上限 ${maxM} 人，目前 ${t.members.length} 人）</span></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="meta">幣別：</span>
+          <input value="${esc(t.currency||'TWD')}" style="width:68px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:12px" onchange="activeTrip().currency=this.value.trim()||'TWD';persist();renderPanel()">
+        </div>
+      </div>
+      <div class="member-chips">
+        ${t.members.map((m,i)=>`<span class="member-chip">${esc(m)}${isOwner?` <button type="button" class="danger" onclick="removeSplitMember(${i})" title="移除成員">×</button>`:''}</span>`).join('')||'<span class="meta">尚未新增成員人名</span>'}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <input id="new_member_name" placeholder="輸入人名（例如：暄絜、旅伴A）" style="flex:1;padding:8px 11px;border:1px solid var(--line);border-radius:11px;background:#fff" onkeydown="if(event.key==='Enter')addSplitMember()">
+        <button type="button" class="softbtn" onclick="addSplitMember()">＋ 新增人名</button>
+      </div>
+    </div>
+
+    <div class="split-box" style="background:#f2f6fb">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <b>📊 自動結算（誰給誰多少）</b>
+        <span class="meta">總支出：${esc(t.currency)} ${totalSpent.toLocaleString()}</span>
+      </div>
+      ${settlements.length?settlements.map(s=>`<div class="settle-row"><span>${esc(s.from)} <span style="color:#91a8c0">→ 給 →</span> ${esc(s.to)}</span><span class="settle-amt">${esc(t.currency)} ${s.amount.toLocaleString()}</span></div>`).join(''):'<div class="meta">目前帳目已平衡，或尚未新增款項。</div>'}
+    </div>
+
+    <h3 style="margin-top:20px">🧾 款項明細</h3>
+    ${t.expenses.length?t.expenses.slice().reverse().map(ex=>`
+      <div class="plan-card" onclick="openExpenseModal('${ex.id}')">
+        <div class="day-card-head">
+          <div>
+            <div class="item-title">${esc(ex.title||'未命名款項')}</div>
+            <div class="meta">先付：<b>${esc(ex.payer)}</b> ｜ 分攤（${(ex.splitWith||[]).length}人）：${esc((ex.splitWith||[]).join('、'))}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="settle-amt">${esc(t.currency)} ${Number(ex.amount||0).toLocaleString()}</div>
+            <button type="button" class="tiny danger" style="margin-top:4px" onclick="event.stopPropagation();removeExpense('${ex.id}')">刪除</button>
+          </div>
+        </div>
+      </div>`).join(''):'<div class="empty">還沒有分帳紀錄，點上方「＋ 新增款項」開始記帳吧！</div>'}
+  `;
+}
+
+function addSplitMember(){
+  const t=activeTrip();
+  ensure(t,'members',[]);
+  const maxM=Number(t.maxMembers)||4;
+  if(t.members.length>=maxM){
+    alert(`已達設定的人數上限（最多 ${maxM} 人）！如需增加，請管理員在「🤝 共享旅程」調高上限。`);
+    return;
+  }
+  const inp=$('new_member_name');
+  const name=(inp?.value||'').trim();
+  if(!name) return;
+  if(t.members.includes(name)){alert('這個名字已經在名單裡囉！');return;}
+  t.members.push(name);
+  persist();
+  renderPanel();
+}
+function removeSplitMember(idx){
+  const t=activeTrip();
+  if(!confirm(`確定移除成員「${t.members[idx]}」？`)) return;
+  t.members.splice(idx,1);
+  persist();
+  renderPanel();
+}
+function calcSettlements(members,expenses){
+  const bal={};
+  (members||[]).forEach(m=>bal[m]=0);
+  (expenses||[]).forEach(ex=>{
+    const amt=Number(ex.amount)||0;
+    const payer=ex.payer;
+    const split=(ex.splitWith||[]).filter(Boolean);
+    if(!amt || !payer || !split.length) return;
+    bal[payer]=(bal[payer]||0)+amt;
+    const share=amt/split.length;
+    split.forEach(m=>{bal[m]=(bal[m]||0)-share;});
+  });
+  const debtors=[],creditors=[];
+  Object.entries(bal).forEach(([name,v])=>{
+    const val=Math.round(v*100)/100;
+    if(val<-0.01) debtors.push({name,amt:-val});
+    else if(val>0.01) creditors.push({name,amt:val});
+  });
+  debtors.sort((a,b)=>b.amt-a.amt);
+  creditors.sort((a,b)=>b.amt-a.amt);
+  const res=[];
+  let i=0,j=0;
+  while(i<debtors.length && j<creditors.length){
+    const pay=Math.min(debtors[i].amt,creditors[j].amt);
+    res.push({from:debtors[i].name,to:creditors[j].name,amount:Math.round(pay*10)/10});
+    debtors[i].amt-=pay;
+    creditors[j].amt-=pay;
+    if(debtors[i].amt<0.01) i++;
+    if(creditors[j].amt<0.01) j++;
+  }
+  return res;
+}
+
+function openExpenseModal(id=null){
+  const t=activeTrip();
+  ensure(t,'members',[]);
+  ensure(t,'expenses',[]);
+  if(!t.members.length){
+    alert('請先在上方「分帳成員名單」新增至少一位人名，再開始新增款項喔！');
+    return;
+  }
+  const old=t.expenses.find(x=>x.id===id)||{};
+  const checkedSet=new Set(old.splitWith && old.splitWith.length ? old.splitWith : t.members);
+  showModal(id?'編輯款項':'新增款項',`
+    <div class="field"><label>款項名稱</label><input id="ex_title" value="${esc(old.title||'')}" placeholder="例如：烤肉晚餐、計程車資"></div>
+    <div class="field">
+      <label>金額（可直接輸入數字，或用下方計算機試算）</label>
+      <input id="ex_amount" type="text" inputmode="decimal" value="${esc(old.amount||'')}" placeholder="0">
+      <div class="calc-pad">
+        <button type="button" onclick="calcInput('7')">7</button><button type="button" onclick="calcInput('8')">8</button><button type="button" onclick="calcInput('9')">9</button><button type="button" class="op" onclick="calcInput('/')">÷</button>
+        <button type="button" onclick="calcInput('4')">4</button><button type="button" onclick="calcInput('5')">5</button><button type="button" onclick="calcInput('6')">6</button><button type="button" class="op" onclick="calcInput('*')">×</button>
+        <button type="button" onclick="calcInput('1')">1</button><button type="button" onclick="calcInput('2')">2</button><button type="button" onclick="calcInput('3')">3</button><button type="button" class="op" onclick="calcInput('-')">−</button>
+        <button type="button" onclick="calcClear()">C</button><button type="button" onclick="calcInput('0')">0</button><button type="button" onclick="calcInput('.')">.</button><button type="button" class="op" onclick="calcInput('+')">＋</button>
+        <button type="button" class="op" style="grid-column:span 2" onclick="calcBack()">⌫ 退格</button>
+        <button type="button" class="eq" style="grid-column:span 2" onclick="calcEval()">＝ 算出金額</button>
+      </div>
+    </div>
+    <div class="field"><label>誰先付的（付款人）</label>
+      <select id="ex_payer">${t.members.map(m=>`<option value="${esc(m)}" ${old.payer===m?'selected':''}>${esc(m)}</option>`).join('')}</select>
+    </div>
+    <div class="field">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <label>有誰分（勾選參與分攤的人名）</label>
+        <button type="button" class="tiny" onclick="toggleAllSplit(true)">全選</button>
+      </div>
+      <div class="member-chips" id="ex_split_list">
+        ${t.members.map(m=>`<label class="chk-pill"><input type="checkbox" value="${esc(m)}" ${checkedSet.has(m)?'checked':''}> ${esc(m)}</label>`).join('')}
+      </div>
+    </div>
+  `,()=>{
+    calcEval();
+    const amt=parseFloat($('ex_amount').value);
+    if(!amt || amt<=0){alert('請輸入正確的金額');return;}
+    const splitWith=[...document.querySelectorAll('#ex_split_list input:checked')].map(c=>c.value);
+    if(!splitWith.length){alert('請至少勾選一位分攤成員');return;}
+    const item={
+      id:old.id||uid(),
+      title:$('ex_title').value.trim()||'未命名款項',
+      amount:Math.round(amt*100)/100,
+      payer:$('ex_payer').value,
+      splitWith
+    };
+    if(id) Object.assign(old,item);
+    else t.expenses.push(item);
+    persist();
+    renderPanel();
+  });
+}
+function calcInput(ch){const inp=$('ex_amount');if(inp)inp.value=(inp.value||'')+ch;}
+function calcClear(){const inp=$('ex_amount');if(inp)inp.value='';}
+function calcBack(){const inp=$('ex_amount');if(inp)inp.value=(inp.value||'').slice(0,-1);}
+function calcEval(){
+  const inp=$('ex_amount');if(!inp)return;
+  const expr=(inp.value||'').replace(/[^0-9+\-*/.()]/g,'');
+  if(!expr)return;
+  try{
+    const val=Function('"use strict";return ('+expr+')')();
+    if(typeof val==='number' && isFinite(val)) inp.value=Math.round(val*100)/100;
+  }catch(e){}
+}
+function toggleAllSplit(state){document.querySelectorAll('#ex_split_list input[type="checkbox"]').forEach(c=>c.checked=state);}
+function removeExpense(id){
+  if(!confirm('確定刪除這筆款項？'))return;
+  const t=activeTrip();
+  t.expenses=(t.expenses||[]).filter(x=>x.id!==id);
+  persist();renderPanel();
+}
+
+/* 行程安排 */
 function itinerary(p,t){
   ensure(t,'days',[]);
   const actions=`<button class="primary" onclick="addDay()">＋ 新增天數</button><button class="softbtn" onclick="editTrip()">✎ 編輯旅程資訊</button>`;
@@ -152,7 +537,7 @@ function dayDetail(p,t){
     <div class="plan-card" onclick="openPlanDetail('${d.id}','${it.id}')">
       <div class="plan-card-head"><span class="type">${esc(it.type||'其他')}</span><div class="item-main">
         <div class="item-title">${esc(it.title||'未命名行程')}</div>
-        <div class="meta">${esc(it.date||'日期未定')}　${esc(it.startTime||it.time||'未設定時間')}${it.endTime?' ～ '+esc(it.endTime):''}</div>
+        <div class="meta">${esc(it.date||'日期未定')} ${esc(it.startTime||it.time||'未設定時間')}${it.endTime?' ～ '+esc(it.endTime):''}</div>
         ${it.place?`<div class="meta">📍 ${esc(it.place)}</div>`:''}
       </div><span class="tiny">詳細 ↗</span></div>
       <div class="toolbar sort-actions">
@@ -176,8 +561,10 @@ function attachDaySwipe(el){
   const start=(x,y)=>{sx=x;sy=y;};
   const end=(x,y,target)=>{
     if(!sx)return;
-    const dx=x-sx,dy=y-sy;sx=0;
-    if(target?.closest?.('.day-tabs,button,input,textarea,a'))return;
+    const dx=x-sx,dy=y-sy;
+    const startX=sx; sx=0;
+    if(startX<=35) return; // 最左側保留給邊緣返回手勢
+    if(target?.closest?.('.day-tabs,.carousel-track,button,input,textarea,a'))return;
     if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.2){
       const trip=activeTrip(),i=trip.days.findIndex(x=>x.id===activeDayId);
       if(dx<0&&i<trip.days.length-1)switchDay(trip.days[i+1].id);
@@ -199,10 +586,11 @@ function planDetail(p,t){
     <div class="toolbar"><button class="primary" onclick="editPlan('${d.id}','${it.id}')">✎ 編輯行程</button><button type="button" class="softbtn danger" onclick="removePlan('${d.id}','${it.id}')">刪除行程</button></div>
     <div class="plan-detail">
       <div class="detail-row"><div class="detail-label">行程類型</div>${esc(it.type||'其他')}</div>
-      <div class="detail-row"><div class="detail-label">日期與時間</div>${esc(it.date||'日期未設定')}　${esc(it.startTime||it.time||'時間未設定')}${it.endTime?' ～ '+esc(it.endTime):''}</div>
+      <div class="detail-row"><div class="detail-label">日期與時間</div>${esc(it.date||'日期未設定')} ${esc(it.startTime||it.time||'時間未設定')}${it.endTime?' ～ '+esc(it.endTime):''}</div>
       <div class="detail-row"><div class="detail-label">地點</div>${esc(it.place||'尚未填寫')}</div>
       <div class="detail-row"><div class="detail-label">備註／其他資訊</div>${esc(it.note||'尚未填寫').replace(/\n/g,'<br>')}</div>
-${it.url?`<div class="detail-row"><div class="detail-label">相關連結</div><a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.urlLabel || (window.__getUrlLabel && window.__getUrlLabel(it.url)) || '開啟相關連結 ↗')}</a></div>`:''}      ${it.image?`<div class="detail-row"><div class="detail-label">照片</div><img src="${it.image}" alt="行程照片"></div>`:''}
+      ${it.url?`<div class="detail-row"><div class="detail-label">相關連結</div><a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.urlLabel || '開啟相關連結 ↗')}</a></div>`:''}
+      ${it.image?`<div class="detail-row"><div class="detail-label">照片</div><img src="${it.image}" alt="行程照片"></div>`:''}
       <div class="detail-row"><div class="detail-label">百貨／店家資料</div>${(it.departmentRows||[]).length?(it.departmentRows||[]).map(r=>`<div class="reference"><b>${esc(r.name||'未命名店家')}</b><div class="meta">${esc(r.floor||'')}${r.note?' · '+esc(r.note):''}</div>${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">開啟 ↗</a>`:''}</div>`).join(''):'尚未新增百貨／店家資料'}</div>
     </div>`;
 }
@@ -212,32 +600,7 @@ function editDay(id){
     d.name=$('f_dayname').value||'未命名天數';persist();renderPanel();
   });
 }
-function renderDepartmentTable(day){
-  const rows=day.departmentRows||[];
-  return `<div class="department-wrap"><div style="overflow:auto"><table><thead><tr><th>店家名稱</th><th>樓層</th><th>超連結</th><th>備註</th><th>操作</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td><input value="${esc(r.name||'')}" placeholder="店家名稱" onchange="updateDepartmentCell('${day.id}',${i},'name',this.value)"></td><td><input value="${esc(r.floor||'')}" placeholder="例：3F" onchange="updateDepartmentCell('${day.id}',${i},'floor',this.value)"></td><td><input value="${esc(r.url||'')}" placeholder="https://..." onchange="updateDepartmentCell('${day.id}',${i},'url',this.value)">${r.url?`<a href="${esc(r.url)}" target="_blank" rel="noopener">開啟 ↗</a>`:''}</td><td><input value="${esc(r.note||'')}" placeholder="備註" onchange="updateDepartmentCell('${day.id}',${i},'note',this.value)"></td><td><button type="button" class="tiny danger" onclick="removeDepartmentRow('${day.id}',${i})">×</button></td></tr>`).join('')}</tbody></table></div><button type="button" class="tiny" onclick="addDepartmentRow('${day.id}')">＋ 新增資料列</button></div>`;
-}
-function addDepartmentRow(dayId){
-  const day=activeTrip().days.find(x=>x.id===dayId);if(!day)return;
-  day.departmentRows=day.departmentRows||[];day.departmentRows.push({name:'',floor:'',url:'',note:''});persist();renderPanel();
-}
-function updateDepartmentCell(dayId,row,key,value){
-  const day=activeTrip().days.find(x=>x.id===dayId);if(day&&day.departmentRows&&day.departmentRows[row])day.departmentRows[row][key]=value;persist();
-}
-function removeDepartmentRow(dayId,row){
-  const day=activeTrip().days.find(x=>x.id===dayId);if(day&&day.departmentRows){day.departmentRows.splice(row,1);persist();renderPanel();}
-}
-
-function renderCustomTables(t){return (t.tables||[]).map(tb=>`<div class="day"><div class="dayhead"><input value="${esc(tb.title||'自訂表格')}" onchange="renameTable('${tb.id}',this.value)"><span><button class="tiny" onclick="addTableColumn('${tb.id}')">＋ 欄位</button> <button class="tiny" onclick="addTableRow('${tb.id}')">＋ 列</button> <button type="button" class="tiny danger" onclick="removeTable('${tb.id}')">刪除表格</button></span></div><div style="overflow:auto;padding:10px"><table><thead><tr>${tb.columns.map((c,i)=>`<th><input value="${esc(c)}" onchange="renameTableColumn('${tb.id}',${i},this.value)" style="width:100%;border:0;background:transparent;font-weight:700"></th>`).join('')}<th>操作</th></tr></thead><tbody>${tb.rows.map((r,ri)=>`<tr>${tb.columns.map((c,ci)=>`<td><input value="${esc(r[ci]||'')}" onchange="updateTableCell('${tb.id}',${ri},${ci},this.value)"></td>`).join('')}<td><button type="button" class="tiny danger" onclick="removeTableRow('${tb.id}',${ri})">刪除</button></td></tr>`).join('')}</tbody></table></div></div>`).join('')}
-function addCustomTable(){let t=activeTrip();showModal('新增自訂表格',`<div class="field"><label>表格名稱</label><input id="f_title" value="想去的百貨／店家整理"></div><div class="field"><label>欄位名稱（用逗號分隔）</label><input id="f_cols" value="百貨／店家,樓層,想逛的店,資訊／備註,連結"></div>`,()=>{let cols=$('f_cols').value.split(',').map(x=>x.trim()).filter(Boolean);t.tables.push({id:uid(),title:$('f_title').value,columns:cols.length?cols:['名稱','資訊'],rows:[]});persist();renderPanel()})}
-function renameTable(id,v){let x=activeTrip().tables.find(x=>x.id===id);if(x)x.title=v;persist()}
-function addTableColumn(id){let x=activeTrip().tables.find(x=>x.id===id);let name=prompt('新欄位名稱？','新欄位');if(name){x.columns.push(name);x.rows.forEach(r=>r.push(''));persist();renderPanel()}}
-function renameTableColumn(id,i,v){let x=activeTrip().tables.find(x=>x.id===id);x.columns[i]=v;persist()}
-function addTableRow(id){let x=activeTrip().tables.find(x=>x.id===id);x.rows.push(x.columns.map(()=>''));persist();renderPanel()}
-function updateTableCell(id,r,c,v){let x=activeTrip().tables.find(x=>x.id===id);x.rows[r][c]=v;persist()}
-function removeTableRow(id,i){let x=activeTrip().tables.find(x=>x.id===id);x.rows.splice(i,1);persist();renderPanel()}
-function removeTable(id){if(confirm('確定刪除這個表格？')){let t=activeTrip();t.tables=t.tables.filter(x=>x.id!==id);persist();renderPanel()}}
 function addDay(){let t=activeTrip();let d={id:uid(),name:'第'+(t.days.length+1)+'天',items:[],departmentRows:[]};t.days.push(d);activeDayId=d.id;persist();renderPanel()}
-function updateDayName(id,v){let d=activeTrip().days.find(x=>x.id===id);if(d)d.name=v;persist()}
 function removeDay(id){if(!confirm('確定刪除這一天和裡面的行程？'))return;let t=activeTrip();t.days=t.days.filter(x=>String(x.id)!==String(id));activeDayId=null;activePlanId=null;persist();renderPanel()}
 function addPlan(dayId,id=null){
   let t=activeTrip(),d=t.days.find(x=>x.id===dayId),old=d.items.find(x=>x.id===id)||{};
@@ -249,11 +612,12 @@ function addPlan(dayId,id=null){
       <div class="field"><label>開始／結束時間</label><div class="time-pair"><input id="f_start_time" type="time" value="${esc(old.startTime||old.time||'')}" aria-label="開始時間"><input id="f_end_time" type="time" value="${esc(old.endTime||'')}" aria-label="結束時間"></div></div>
       <div class="field full"><label>地點</label><input id="f_place" value="${esc(old.place||'')}" placeholder="地址或店名"></div>
       <div class="field full"><label>備註／其他資訊</label><textarea id="f_note">${esc(old.note||'')}</textarea></div>
-      <div class="field full"><label>超連結</label><input id="f_url" value="${esc(old.url||'')}" placeholder="https://..."></div>
+      <div class="field"><label>超連結</label><input id="f_url" value="${esc(old.url||'')}" placeholder="https://..."></div>
+      <div class="field"><label>超連結顯示文字（選填）</label><input id="f_url_label" value="${esc(old.urlLabel||'')}" placeholder="預設：開啟相關連結 ↗"></div>
       <div class="field full"><label>行程照片</label><input id="f_image_file" type="file" accept="image/*" onchange="previewPlanImage(event)"><img id="plan_image_preview" class="photo-preview" src="${old.image||''}" alt="行程照片預覽" style="${old.image?'':'display:none'}"><button type="button" class="tiny" onclick="clearPlanImage()">移除照片</button></div>
       <div class="field full"><label>百貨／店家資料（可新增多筆）</label><div id="plan_department_editor">${renderPlanDepartmentEditor(old.departmentRows||[])}</div><button type="button" class="tiny" onclick="addPlanDepartmentEditorRow()">＋ 新增店家</button></div>
     </div>`,()=>{
-      const item={id:old.id||uid(),title:$('f_title').value,type:$('f_type_custom').value.trim()||$('f_type_select').value,date:$('f_date').value,startTime:$('f_start_time').value,endTime:$('f_end_time').value,place:$('f_place').value,note:$('f_note').value,url:$('f_url').value,image:old.image||'',departmentRows:old.departmentRows||[]};
+      const item={id:old.id||uid(),title:$('f_title').value,type:$('f_type_custom').value.trim()||$('f_type_select').value,date:$('f_date').value,startTime:$('f_start_time').value,endTime:$('f_end_time').value,place:$('f_place').value,note:$('f_note').value,url:$('f_url').value,urlLabel:$('f_url_label').value.trim(),image:old.image||'',departmentRows:old.departmentRows||[]};
       const preview=$('plan_image_preview');if(preview?.dataset.removeImage==='1')item.image='';else if(preview?.dataset.newImage==='1')item.image=preview.src;
       item.departmentRows=readPlanDepartmentEditor();
       if(id)Object.assign(old,item);else d.items.push(item);
@@ -279,30 +643,152 @@ function movePlan(dayId,planId,delta){
   const i=day.items.findIndex(x=>String(x.id)===String(planId)),j=i+delta;if(i<0||j<0||j>=day.items.length)return;
   [day.items[i],day.items[j]]=[day.items[j],day.items[i]];persist();renderPanel();
 }
-function refs(p,t){ensure(t,'refs',[]);p.innerHTML=heading('行程參考資料','把攻略、地圖、文章、影片通通收在這裡。','<button class="primary" onclick="addReference()">＋ 新增連結</button>')+(t.refs.map(r=>`<div class="reference"><b>${esc(r.title)}</b><div class="meta">${esc(r.note||'')}</div><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url)} ↗</a><button class="tiny" onclick="editReference('${r.id}')">編輯</button> <button type="button" class="tiny danger" onclick="deleteEntry('refs','${r.id}')">刪除</button></div>`).join('')||'<div class="empty">還沒有參考資料</div>')}
-function addReference(id){let t=activeTrip(),o=t.refs.find(x=>x.id===id)||{};showModal(id?'編輯參考資料':'新增參考資料',`<div class="field"><label>標題</label><input id="f_title" value="${esc(o.title||'')}"></div><div class="field"><label>連結</label><input id="f_url" value="${esc(o.url||'')}" placeholder="https://..."></div><div class="field"><label>備註</label><textarea id="f_note">${esc(o.note||'')}</textarea></div>`,()=>{let x={id:o.id||uid(),title:$('f_title').value,url:$('f_url').value,note:$('f_note').value};if(id)Object.assign(o,x);else t.refs.push(x);persist();renderPanel()})}function editReference(id){addReference(id)}
+
+/* 行程參考資料 */
+function refs(p,t){ensure(t,'refs',[]);p.innerHTML=heading('行程參考資料','把攻略、地圖、文章、影片通通收在這裡。','<button class="primary" onclick="addReference()">＋ 新增連結</button>')+(t.refs.map(r=>`<div class="reference"><b>${esc(r.title)}</b><div class="meta">${esc(r.note||'')}</div><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.urlLabel||r.url)} ↗</a><button class="tiny" onclick="editReference('${r.id}')">編輯</button> <button type="button" class="tiny danger" onclick="deleteEntry('refs','${r.id}')">刪除</button></div>`).join('')||'<div class="empty">還沒有參考資料</div>')}
+function addReference(id){let t=activeTrip(),o=t.refs.find(x=>x.id===id)||{};showModal(id?'編輯參考資料':'新增參考資料',`<div class="field"><label>標題</label><input id="f_title" value="${esc(o.title||'')}"></div><div class="field"><label>連結</label><input id="f_url" value="${esc(o.url||'')}" placeholder="https://..."></div><div class="field"><label>連結顯示文字（選填）</label><input id="f_url_label" value="${esc(o.urlLabel||'')}" placeholder="預設顯示網址"></div><div class="field"><label>備註</label><textarea id="f_note">${esc(o.note||'')}</textarea></div>`,()=>{let x={id:o.id||uid(),title:$('f_title').value,url:$('f_url').value,urlLabel:$('f_url_label').value.trim(),note:$('f_note').value};if(id)Object.assign(o,x);else t.refs.push(x);persist();renderPanel()})}function editReference(id){addReference(id)}
+
+/* 🛍️ 採購清單：三層結構（列表純文字＋詳情頁多圖輪播＋編輯頁） */
+function getShopImages(o){
+  if(Array.isArray(o.images) && o.images.length) return o.images;
+  if(o.image) return [o.image];
+  return [];
+}
 function shopping(p,t){
   ensure(t,'shopping',{buy:[],gift:[]});let s=t.shopping;
-  p.innerHTML=heading('採購清單','點選項目進入獨立編輯頁面，也可以為項目新增圖片。')+
-  `<div class="toolbar"><button class="softbtn ${t.shopTab!=='gift'?'primary':''}" onclick="activeTrip().shopTab='buy';activeShopId=null;renderPanel()">🛒 購買清單</button><button class="softbtn ${t.shopTab==='gift'?'primary':''}" onclick="activeTrip().shopTab='gift';activeShopId=null;renderPanel()">🎁 伴手禮</button><button class="primary" onclick="addShop()">＋ 新增項目</button></div>`+
-  renderShopRows(s[t.shopTab||'buy'],t.shopTab||'buy');
+  const tab=t.shopTab||'buy';
+  p.innerHTML=heading('採購清單','點選項目查看照片與完整資訊，列表維持純文字整潔。')+
+  `<div class="toolbar"><button class="softbtn ${tab!=='gift'?'primary':''}" onclick="activeTrip().shopTab='buy';activeShopId=null;shopMode='view';renderPanel()">🛒 購買清單</button><button class="softbtn ${tab==='gift'?'primary':''}" onclick="activeTrip().shopTab='gift';activeShopId=null;shopMode='view';renderPanel()">🎁 伴手禮</button><button class="primary" onclick="addShop()">＋ 新增項目</button></div>`+
+  renderShopRows(s[tab],tab);
 }
 function renderShopRows(rows,tab){
-  return rows.map(x=>`<div class="shop-detail" onclick="openShop('${x.id}','${tab}')"><div class="day-card-head"><div class="rowtitle">${tab==='gift'?'🎁 '+esc(x.name||'未填寫收禮人')+'｜內容物：'+esc(x.content||'未填寫'):esc(x.name||'未命名項目')}</div><span class="tiny">編輯 →</span></div><div class="rowmeta">${esc(x.place||'')}${x.note?' · '+esc(x.note):''}</div>${x.image?`<img class="photo-preview" src="${x.image}" alt="項目圖片">`:''}</div>`).join('')||'<div class="empty">清單空空的，等你來填滿。</div>';
+  return rows.map(x=>{
+    const imgs=getShopImages(x);
+    return `<div class="shop-detail" onclick="openShop('${x.id}','${tab}')">
+      <div class="day-card-head">
+        <div class="rowtitle">${tab==='gift'?'🎁 '+esc(x.name||'未填寫收禮人')+'｜內容物：'+esc(x.content||'未填寫'):esc(x.name||'未命名項目')}</div>
+        <span class="tiny">查看 ↗</span>
+      </div>
+      <div class="rowmeta">${esc(x.place||'')}${x.note?' · '+esc(x.note):''}${imgs.length?` · 📷 ${imgs.length}張`:''}</div>
+      ${x.url?`<div style="margin-top:6px"><a href="${esc(x.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(x.urlLabel||'開啟相關連結 ↗')}</a></div>`:''}
+    </div>`;
+  }).join('')||'<div class="empty">清單空空的，等你來填滿。</div>';
 }
-function openShop(id,tab){activeTrip().shopTab=tab;activeShopId=id;renderPanel()}
-function closeShop(){activeShopId=null;renderPanel()}
-function shopDetail(p,t){
+function openShop(id,tab){activeTrip().shopTab=tab;activeShopId=id;shopMode='view';renderPanel()}
+function closeShop(){activeShopId=null;shopMode='view';renderPanel()}
+function shopView(p,t){
   const tab=t.shopTab||'buy',rows=t.shopping[tab]||[],o=rows.find(x=>x.id===activeShopId);
   if(!o){activeShopId=null;return shopping(p,t);}
-  p.innerHTML=`<div class="subpage-head"><button class="back" onclick="closeShop()">← 回到採購清單</button><h2>${tab==='gift'?'伴手禮編輯':'採購項目編輯'}</h2></div>
-  <div class="toolbar"><button class="primary" onclick="saveShopDetail('${o.id}','${tab}')">儲存修改</button><button class="softbtn danger" onclick="deleteEntry('shopping','${o.id}','${tab}')">刪除項目</button></div>
-  <div class="formgrid"><div class="field"><label>${tab==='gift'?'收禮人名字':'項目名稱'}</label><input id="shop_name" value="${esc(o.name||'')}"></div>
-  ${tab==='gift'?`<div class="field"><label>內容物</label><input id="shop_content" value="${esc(o.content||'')}"></div>`:''}
-  <div class="field"><label>地點</label><input id="shop_place" value="${esc(o.place||'')}"></div><div class="field"><label>超連結</label><input id="shop_url" value="${esc(o.url||'')}" placeholder="https://..."></div>
-  <div class="field full"><label>備註</label><textarea id="shop_note">${esc(o.note||'')}</textarea></div>
-  <div class="field full"><label>新增圖片</label><input id="shop_image" type="file" accept="image/*" onchange="previewShopImage(event)"><img id="shop_image_preview" class="photo-preview" src="${o.image||''}" alt="圖片預覽" style="${o.image?'':'display:none'}"><button type="button" class="tiny" onclick="clearShopImage()">移除圖片</button></div></div>`;
+  const imgs=getShopImages(o);
+  const title=tab==='gift'?(o.name||'未填寫收禮人'):(o.name||'未命名項目');
+  p.innerHTML=`
+    <div class="subpage-head"><button class="back" onclick="closeShop()">← 回到採購清單</button><h2>${esc(title)}</h2></div>
+    <div class="toolbar">
+      <button class="primary" onclick="shopMode='edit';renderPanel()">✎ 編輯項目</button>
+      <button class="softbtn danger" onclick="deleteEntry('shopping','${o.id}','${tab}')">刪除項目</button>
+    </div>
+    <div class="plan-detail">
+      ${tab==='gift'?`<div class="detail-row"><div class="detail-label">收禮人名字</div>${esc(o.name||'尚未填寫')}</div><div class="detail-row"><div class="detail-label">伴手禮內容物</div>${esc(o.content||'尚未填寫')}</div>`:`<div class="detail-row"><div class="detail-label">項目名稱</div>${esc(o.name||'尚未填寫')}</div>`}
+      <div class="detail-row"><div class="detail-label">購買地點／品牌</div>${esc(o.place||'尚未填寫')}</div>
+      <div class="detail-row"><div class="detail-label">備註</div>${esc(o.note||'尚未填寫').replace(/\n/g,'<br>')}</div>
+      ${o.url?`<div class="detail-row"><div class="detail-label">相關連結</div><a href="${esc(o.url)}" target="_blank" rel="noopener">${esc(o.urlLabel||'開啟相關連結 ↗')}</a></div>`:''}
+      <div class="detail-row"><div class="detail-label">參考照片（${imgs.length} / 5 張）</div>
+        ${imgs.length?`
+          <div class="carousel-wrap">
+            <div class="carousel-track" onscroll="updateCarouselDots(this)">
+              ${imgs.map((src,idx)=>`<div class="carousel-slide"><img src="${src}" alt="照片 ${idx+1}"></div>`).join('')}
+            </div>
+            ${imgs.length>1?`<div class="carousel-dots">${imgs.map((_,idx)=>`<span class="carousel-dot ${idx===0?'active':''}"></span>`).join('')}</div>`:''}
+          </div>
+          ${imgs.length>1?'<div class="meta" style="text-align:center;margin-top:6px">← 左右滑動切換照片 →</div>':''}
+        `:'尚未新增照片'}
+      </div>
+    </div>`;
 }
+function updateCarouselDots(track){
+  const wrap=track.parentElement;
+  const dots=wrap?.querySelectorAll('.carousel-dot');
+  if(!dots || !dots.length) return;
+  const idx=Math.round(track.scrollLeft / Math.max(1,track.clientWidth));
+  dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+
+let tempShopImages=[];
+function shopEdit(p,t){
+  const tab=t.shopTab||'buy',rows=t.shopping[tab]||[],o=rows.find(x=>x.id===activeShopId);
+  if(!o){activeShopId=null;return shopping(p,t);}
+  tempShopImages=[...getShopImages(o)];
+  p.innerHTML=`
+    <div class="subpage-head"><button class="back" onclick="shopMode='view';renderPanel()">← 返回項目詳情</button><h2>${tab==='gift'?'編輯伴手禮':'編輯採購項目'}</h2></div>
+    <div class="toolbar">
+      <button class="primary" onclick="saveShopDetail('${o.id}','${tab}')">儲存修改</button>
+      <button class="softbtn" onclick="shopMode='view';renderPanel()">取消</button>
+      <button class="softbtn danger" onclick="deleteEntry('shopping','${o.id}','${tab}')">刪除項目</button>
+    </div>
+    <div class="formgrid">
+      <div class="field"><label>${tab==='gift'?'收禮人名字':'項目名稱'}</label><input id="shop_name" value="${esc(o.name||'')}"></div>
+      ${tab==='gift'?`<div class="field"><label>內容物</label><input id="shop_content" value="${esc(o.content||'')}"></div>`:''}
+      <div class="field"><label>地點／品牌</label><input id="shop_place" value="${esc(o.place||'')}"></div>
+      <div class="field"><label>超連結</label><input id="shop_url" value="${esc(o.url||'')}" placeholder="https://..."></div>
+      <div class="field"><label>超連結顯示文字（選填）</label><input id="shop_url_label" value="${esc(o.urlLabel||'')}" placeholder="預設：開啟相關連結 ↗"></div>
+      <div class="field full"><label>備註</label><textarea id="shop_note">${esc(o.note||'')}</textarea></div>
+      <div class="field full">
+        <label>項目照片（最多 5 張，目前 <span id="shop_img_count">${tempShopImages.length}</span> / 5 張）</label>
+        <input id="shop_image" type="file" accept="image/*" multiple onchange="previewShopImages(event)">
+        <div id="shop_images_grid" class="photo-grid-edit"></div>
+      </div>
+    </div>`;
+  renderShopEditGrid();
+}
+function renderShopEditGrid(){
+  const grid=$('shop_images_grid'),cnt=$('shop_img_count');
+  if(cnt) cnt.textContent=tempShopImages.length;
+  if(!grid) return;
+  grid.innerHTML=tempShopImages.map((src,i)=>`<div class="photo-thumb"><img src="${src}" alt="預覽 ${i+1}"><button type="button" onclick="removeTempShopImage(${i})" title="刪除此張">×</button></div>`).join('');
+}
+function removeTempShopImage(idx){
+  tempShopImages.splice(idx,1);
+  renderShopEditGrid();
+}
+function previewShopImages(event){
+  const files=Array.from(event.target.files||[]);
+  if(!files.length) return;
+  const remain=5-tempShopImages.length;
+  if(remain<=0){alert('最多只能放 5 張照片喔！請先刪除舊照片再新增。');event.target.value='';return;}
+  const picked=files.slice(0,remain);
+  if(files.length>remain) alert(`最多只能放 5 張照片，已自動選取前 ${remain} 張。`);
+  picked.forEach(file=>{
+    compressImageFile(file,data=>{
+      if(tempShopImages.length<5){
+        tempShopImages.push(data);
+        renderShopEditGrid();
+      }
+    });
+  });
+  event.target.value='';
+}
+function saveShopDetail(id,tab){
+  const o=activeTrip().shopping[tab].find(x=>x.id===id);if(!o)return;
+  o.name=$('shop_name').value;
+  o.content=$('shop_content')?.value||'';
+  o.place=$('shop_place').value;
+  o.url=$('shop_url').value;
+  o.urlLabel=$('shop_url_label').value.trim();
+  o.note=$('shop_note').value;
+  o.images=[...tempShopImages];
+  o.image=o.images[0]||'';
+  shopMode='view';
+  persist();
+  renderPanel();
+}
+function addShop(id,tab){
+  let t=activeTrip();tab=tab||t.shopTab||'buy';let rows=t.shopping[tab];
+  if(id){openShop(id,tab);return;}
+  const x={id:uid(),name:'',content:'',place:'',url:'',urlLabel:'',note:'',done:false,image:'',images:[]};
+  rows.push(x);persist();activeShopId=x.id;shopMode='edit';renderPanel();
+}
+function editShop(id,tab){activeTrip().shopTab=tab;activeShopId=id;shopMode='edit';renderPanel()}
+
 function compressImageFile(file,done){
   if(!file.type.startsWith('image/')){alert('請選擇圖片檔案');return;}
   if(file.size>12*1024*1024){alert('圖片請選擇 12MB 以下的檔案。');return;}
@@ -310,40 +796,18 @@ function compressImageFile(file,done){
   reader.onload=()=>{
     const image=new Image();
     image.onload=()=>{
-      const max=1200,scale=Math.min(1,max/Math.max(image.width,image.height));
+      const max=1000,scale=Math.min(1,max/Math.max(image.width,image.height));
       const canvas=document.createElement('canvas');canvas.width=Math.round(image.width*scale);canvas.height=Math.round(image.height*scale);
       canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);
-      done(canvas.toDataURL('image/jpeg',0.78));
+      done(canvas.toDataURL('image/jpeg',0.74));
     };
     image.onerror=()=>alert('圖片讀取失敗，請換一張圖片。');
     image.src=reader.result;
   };
   reader.readAsDataURL(file);
 }
-function previewDayImage(event){
-  const file=event.target.files&&event.target.files[0];if(!file)return;
-  compressImageFile(file,data=>{const day=activeTrip().days.find(x=>x.id===activeDayId);if(!day)return;day.image=data;persist();const img=$('day_image_preview');img.src=data;img.style.display='block';});
-}
-function clearDayImage(){const day=activeTrip().days.find(x=>x.id===activeDayId);if(day){day.image='';persist();const img=$('day_image_preview');img.src='';img.style.display='none';}}
-function previewShopImage(event){
-  const file=event.target.files&&event.target.files[0];if(!file)return;
-  compressImageFile(file,data=>{const img=$('shop_image_preview');img.src=data;img.style.display='block';img.dataset.newImage='1';});
-}
-function clearShopImage(){const img=$('shop_image_preview');if(img){img.src='';img.style.display='none';img.dataset.removeImage='1';}}
-function saveShopDetail(id,tab){
-  const o=activeTrip().shopping[tab].find(x=>x.id===id);if(!o)return;
-  o.name=$('shop_name').value;o.content=$('shop_content')?.value||'';o.place=$('shop_place').value;o.url=$('shop_url').value;o.note=$('shop_note').value;
-  const img=$('shop_image_preview');if(img?.dataset.removeImage==='1')o.image='';else if(img?.dataset.newImage==='1')o.image=img.src;
-  persist();renderPanel();
-}
-function addShop(id,tab){
-  let t=activeTrip();tab=tab||t.shopTab||'buy';let rows=t.shopping[tab];
-  if(id){activeShopId=id;renderPanel();return;}
-  const x={id:uid(),name:'',content:'',place:'',url:'',note:'',done:false,image:''};
-  rows.push(x);persist();activeShopId=x.id;renderPanel();
-}
-function editShop(id,tab){openShop(id,tab)}
 
+/* 行李／緊急／注意事項 */
 function luggage(p,t){ensure(t,'luggage',[]);p.innerHTML=heading('行李清單','分類可以自己改，打包進度一眼掌握。','<button class="primary" onclick="addLuggage()">＋ 新增物品</button>')+t.luggage.map(x=>`<div class="listrow ${x.done?'done':''}"><input class="check" type="checkbox" ${x.done?'checked':''} onchange="toggleEntry('luggage','${x.id}',this.checked)"><div><div class="rowtitle">${esc(x.name)}</div><div class="rowmeta">${esc(x.category||'未分類')} ${x.note?'・'+esc(x.note):''}</div></div><div><button class="tiny" onclick="editLuggage('${x.id}')">編輯</button> <button type="button" class="tiny danger" onclick="deleteEntry('luggage','${x.id}')">×</button></div></div>`).join('')||'<div class="empty">還沒有行李項目</div>';}
 function addLuggage(id){let t=activeTrip(),o=t.luggage.find(x=>x.id===id)||{};showModal('行李項目',`<div class="field"><label>物品名稱</label><input id="f_name" value="${esc(o.name||'')}"></div><div class="field"><label>分類（可自行輸入或選擇）</label><input id="f_category" list="categories" value="${esc(o.category||'')}"><datalist id="categories"><option>衣物</option><option>盥洗用品</option><option>3C 電子</option><option>證件票券</option><option>藥品</option><option>化妝保養</option><option>其他</option></datalist></div><div class="field"><label>備註</label><textarea id="f_note">${esc(o.note||'')}</textarea></div>`,()=>{let x={id:o.id||uid(),name:$('f_name').value,category:$('f_category').value,note:$('f_note').value,done:o.done||false};if(id)Object.assign(o,x);else t.luggage.push(x);persist();renderPanel()})}function editLuggage(id){addLuggage(id)}
 function emergency(p,t){ensure(t,'emergency',[]);p.innerHTML=heading('緊急號碼','把重要聯絡方式放在容易找到的地方。','<button class="primary" onclick="addEmergency()">＋ 新增聯絡資訊</button>')+`<table><thead><tr><th>名稱／單位</th><th>電話</th><th>備註</th><th></th></tr></thead><tbody>${t.emergency.map(x=>`<tr><td><input value="${esc(x.name)}" onchange="cellUpdate('emergency','${x.id}','name',this.value)"></td><td><input value="${esc(x.phone)}" onchange="cellUpdate('emergency','${x.id}','phone',this.value)"></td><td><input value="${esc(x.note)}" onchange="cellUpdate('emergency','${x.id}','note',this.value)"></td><td><button type="button" class="tiny danger" onclick="deleteEntry('emergency','${x.id}')">×</button></td></tr>`).join('')}</tbody></table>`}
@@ -364,7 +828,7 @@ function deleteEntry(kind,id,tab){
   else if(kind==='watch')arr=t.notes.watch;
   else if(kind==='todo')arr=t.notes.todo;
   if(arr){const i=arr.findIndex(x=>String(x.id)===String(id));if(i>=0)arr.splice(i,1);}
-  if(kind==='shopping' && String(activeShopId)===String(id))activeShopId=null;
+  if(kind==='shopping' && String(activeShopId)===String(id)){activeShopId=null;shopMode='view';}
   persist();renderPanel();
 }
 
@@ -372,9 +836,19 @@ function cellUpdate(kind,id,key,val){let x=activeTrip()[kind].find(x=>x.id===id)
 function showModal(title,body,save){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('modalbg').style.display='flex';modalSave=save}
 function closeModal(){$('modalbg').style.display='none';modalSave=null}
 function saveModal(){if(modalSave)modalSave();closeModal()}
-function newTrip(){showModal('新增旅程',`<div class="formgrid"><div class="field"><label>旅程名稱</label><input id="f_name" placeholder="例如：首爾小旅行"></div><div class="field"><label>封面小圖示（emoji）</label><input id="f_emoji" value="🌷"></div><div class="field full"><label>目的地</label><input id="f_place" placeholder="例如：韓國・首爾"></div><div class="field"><label>開始日期</label><input id="f_start" type="date"></div><div class="field"><label>結束日期</label><input id="f_end" type="date"></div></div>`,()=>{let t={id:uid(),name:$('f_name').value||'未命名旅程',emoji:$('f_emoji').value,place:$('f_place').value,start:$('f_start').value,end:$('f_end').value,days:[],refs:[],shopping:{buy:[],gift:[]},luggage:[],emergency:[],notes:{todo:[],flight:[],watch:[]}};trips.unshift(t);persist();page=0;openTrip(t.id)})}
+function newTrip(){showModal('新增旅程',`<div class="formgrid"><div class="field"><label>旅程名稱</label><input id="f_name" placeholder="例如：首爾小旅行"></div><div class="field"><label>封面小圖示（emoji）</label><input id="f_emoji" value="🌷"></div><div class="field full"><label>目的地</label><input id="f_place" placeholder="例如：韓國・首爾"></div><div class="field"><label>開始日期</label><input id="f_start" type="date"></div><div class="field"><label>結束日期</label><input id="f_end" type="date"></div></div>`,()=>{let t={id:uid(),name:$('f_name').value||'未命名旅程',emoji:$('f_emoji').value,place:$('f_place').value,start:$('f_start').value,end:$('f_end').value,ownerUid:currentUser?currentUser.uid:'',joinedUids:currentUser?[currentUser.uid]:[],maxMembers:4,members:[],expenses:[],currency:'TWD',days:[],refs:[],shopping:{buy:[],gift:[]},luggage:[],emergency:[],notes:{todo:[],flight:[],watch:[]}};trips.unshift(t);persist(t);page=0;openTrip(t.id)})}
 function editTrip(){let t=activeTrip();showModal('編輯旅程',`<div class="formgrid"><div class="field"><label>旅程名稱</label><input id="f_name" value="${esc(t.name)}"></div><div class="field"><label>封面小圖示</label><input id="f_emoji" value="${esc(t.emoji||'🌷')}"></div><div class="field full"><label>目的地</label><input id="f_place" value="${esc(t.place||'')}"></div><div class="field"><label>開始日期</label><input id="f_start" type="date" value="${esc(t.start||'')}"></div><div class="field"><label>結束日期</label><input id="f_end" type="date" value="${esc(t.end||'')}"></div></div>`,()=>{t.name=$('f_name').value;t.emoji=$('f_emoji').value;t.place=$('f_place').value;t.start=$('f_start').value;t.end=$('f_end').value;persist();renderWorkspace()})}
-function deleteTrip(){if(confirm('確定刪除整趟旅程？這個動作無法復原。')){trips=trips.filter(x=>x.id!==current);current=null;persist();goHome()}}
+function deleteTrip(){
+  const t=activeTrip();
+  if(!t) return;
+  const isOwner=!t.ownerUid || !currentUser || t.ownerUid===currentUser.uid;
+  const msg=t.shared && !isOwner?'確定退出這個共享旅程嗎？（退出後將從你的列表移除）':'確定刪除整趟旅程？這個動作無法復原。';
+  if(confirm(msg)){
+    if(sharedUnsubscribers[t.id]){sharedUnsubscribers[t.id]();delete sharedUnsubscribers[t.id];}
+    if(t.shared && isOwner && db){db.collection('sharedTrips').doc(t.id).delete().catch(()=>{});}
+    trips=trips.filter(x=>x.id!==current);current=null;persist();goHome();
+  }
+}
 function exportData(){let blob=new Blob([JSON.stringify(trips,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='旅記備份.json';a.click();URL.revokeObjectURL(a.href)}
 function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let data=JSON.parse(r.result);if(!Array.isArray(data))throw 0;if(confirm('匯入會以檔案內容取代目前所有旅程，確定嗎？')){trips=data;persist();goHome()}}catch{alert('檔案格式不正確')}};r.readAsText(f);e.target.value=''}
 let isLoggingIn = false;
@@ -400,7 +874,6 @@ async function googleLogin(){
     } else {
       const provider = new firebase.auth.GoogleAuthProvider();
       const result = await auth.signInWithPopup(provider);
-      // 檢查此 Google 帳號是否已設定密碼，若無則引導設定一次，方便手機 App 登入
       const methods = await auth.fetchSignInMethodsForEmail(result.user.email);
       if(!methods.includes('password')){
         const newPwd = prompt('請為手機 App 設定一組同步密碼（至少 6 個字元）：');
@@ -422,6 +895,8 @@ async function googleLogin(){
 }
 renderHome();
 initFirebase();
+
+/* 視覺特效＋iPhone 左側邊緣滑動返回＋iOS PWA 外部連結外開 */
 (function(){
   const style = document.createElement('style');
   style.textContent = `@keyframes xmasFall{0%{transform:translate(0,-20px) rotate(0deg);opacity:0}15%{opacity:0.8}50%{transform:translate(16px,50vh) rotate(180deg)}85%{opacity:0.8}100%{transform:translate(-12px,105vh) rotate(360deg);opacity:0}}.xmas-flake{position:fixed;top:-20px;pointer-events:none;z-index:9999;user-select:none;animation:xmasFall ease-in-out forwards}@keyframes starPop{0%{transform:translate(-50%,-50%) scale(1) rotate(0deg)}45%{transform:translate(-50%,-95%) scale(1.22) rotate(18deg)}100%{transform:translate(-50%,-130%) scale(0.95) rotate(32deg)}}.click-star{position:fixed;pointer-events:none;z-index:10000;user-select:none;width:55px;height:55px;animation:starPop 0.28s ease-out forwards}.lying-pikmin{position:fixed;right:-58px;bottom:4px;width:238px;height:auto;pointer-events:none;z-index:9998;user-select:none}`;
@@ -469,53 +944,38 @@ initFirebase();
     }
   });
 
-  // 精準鎖定 placeholder="https://..." 的超連結輸入框，在下方長出「超連結顯示文字」
-  const LABEL_KEY = 'travel_url_labels_v1';
-  function getLabels(){ try{ return JSON.parse(localStorage.getItem(LABEL_KEY) || '{}'); }catch(e){ return {}; } }
-  function saveLabel(url, text){
-    if(!url) return;
-    const map = getLabels();
-    if(text && text.trim()) map[url.trim()] = text.trim();
-    else delete map[url.trim()];
-    localStorage.setItem(LABEL_KEY, JSON.stringify(map));
-  }
-  window.__getUrlLabel = function(url){ return url ? (getLabels()[url.trim()] || '') : ''; };
+  // iPhone 左側邊緣滑動返回上一頁（Edge Swipe Back）
+  let edgeStartX = 0, edgeStartY = 0, isEdgeSwipe = false;
+  document.addEventListener('touchstart', function(e){
+    const t = e.touches[0];
+    if(t && t.clientX <= 35){
+      edgeStartX = t.clientX;
+      edgeStartY = t.clientY;
+      isEdgeSwipe = true;
+    } else {
+      isEdgeSwipe = false;
+    }
+  }, {passive: true});
 
-  function injectUrlLabelField(){
-    const urlInput = document.querySelector('input[placeholder*="https://"]');
-    if(!urlInput || document.getElementById('customUrlLabelWrap')) return;
-
-    const fieldBox = urlInput.closest('.field, .form-group, div');
-    const wrap = document.createElement('div');
-    wrap.id = 'customUrlLabelWrap';
-    wrap.className = fieldBox ? fieldBox.className : '';
-    wrap.style.marginTop = '12px';
-
-    const origLbl = fieldBox ? fieldBox.querySelector('label, .label, div:first-child') : null;
-    const lbl = document.createElement(origLbl && origLbl !== urlInput ? origLbl.tagName.toLowerCase() : 'label');
-    if(origLbl && origLbl !== urlInput) lbl.className = origLbl.className;
-    lbl.textContent = '超連結顯示文字（選填）';
-
-    const txtInp = document.createElement('input');
-    txtInp.type = 'text';
-    txtInp.className = urlInput.className;
-    txtInp.placeholder = '預設：開啟相關連結 ↗';
-    txtInp.value = window.__getUrlLabel(urlInput.value);
-
-    const sync = () => saveLabel(urlInput.value, txtInp.value);
-    txtInp.addEventListener('input', sync);
-    urlInput.addEventListener('input', () => {
-      if(!txtInp.value && window.__getUrlLabel(urlInput.value)) txtInp.value = window.__getUrlLabel(urlInput.value);
-      sync();
-    });
-    urlInput.addEventListener('change', sync);
-
-    wrap.appendChild(lbl);
-    wrap.appendChild(txtInp);
-    (fieldBox || urlInput).insertAdjacentElement('afterend', wrap);
-  }
-  new MutationObserver(injectUrlLabelField).observe(document.body, {childList: true, subtree: true});
-  injectUrlLabelField();
+  document.addEventListener('touchend', function(e){
+    if(!isEdgeSwipe) return;
+    isEdgeSwipe = false;
+    const t = e.changedTouches[0];
+    if(!t) return;
+    const dx = t.clientX - edgeStartX;
+    const dy = Math.abs(t.clientY - edgeStartY);
+    if(dx > 65 && dx > dy * 1.4){
+      const modal = document.getElementById('modalbg');
+      if(modal && modal.style.display === 'flex'){
+        closeModal();
+        return;
+      }
+      const panelBack = document.querySelector('#panel .back');
+      if(panelBack){ panelBack.click(); return; }
+      const wsBack = document.querySelector('#workspace > .back');
+      if(wsBack && document.getElementById('workspace').style.display !== 'none'){ wsBack.click(); }
+    }
+  }, {passive: true});
 
   // 修復 iOS PWA 模式下外部連結點了沒反應的問題
   document.addEventListener('click', function(e){
